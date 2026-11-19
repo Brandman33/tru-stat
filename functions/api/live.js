@@ -57,7 +57,13 @@ async function onsFigure(id, [path, list, mode, scale]) {
   };
   const nx = iso(new Date(d.nextRelease));
   if (nx) out.next_update = nx;
-  if (id === 'unemployment' && !/–/.test(out.period)) out.period = '3 months to ' + out.period;
+  if (id === 'unemployment') {
+    // ONS labels rolling three-month Labour Force Survey figures by their middle month ("2026 AUG" = Jul–Sep 2026)
+    const mid = (s) => { const m = /^(\d{4}) ([A-Z]{3})$/.exec(s); if (!m) return label(s);
+      const y = +m[1], k = MON[m[2]]; const a = new Date(Date.UTC(y, k - 2, 1)), c = new Date(Date.UTC(y, k, 1));
+      return `${MNAME[a.getUTCMonth() + 1]}${a.getUTCFullYear() !== c.getUTCFullYear() ? ' ' + a.getUTCFullYear() : ''}–${MNAME[c.getUTCMonth() + 1]} ${c.getUTCFullYear()}`; };
+    out.period = mid(last.date); out.prev_label = mid(prev.date);
+  }
   if (id === 'cpi' || id === 'core_cpi') out.period = '12 months to ' + out.period;
   return out;
 }
