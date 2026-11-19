@@ -2,12 +2,12 @@
 // Fetches the latest official figures straight from the ONS and the Bank of England,
 // caches the result for an hour, and returns only what it could read.
 // The page falls back to its saved figures (data/dashuk.json) for anything missing.
- 
+
 const UA = 'tru-stat/1.0 (public dashboard of official UK statistics)';
 const CACHE_SECONDS = 3600;
 const MON = { JAN: 1, FEB: 2, MAR: 3, APR: 4, MAY: 5, JUN: 6, JUL: 7, AUG: 8, SEP: 9, OCT: 10, NOV: 11, DEC: 12 };
 const MNAME = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
- 
+
 // ONS series: id on the page -> [path to the series, which list to read, how to treat it]
 const ONS = {
   cpi:          ['/economy/inflationandpriceindices/timeseries/d7g7/mm23', 'months', 'prevPeriod'],
@@ -19,7 +19,7 @@ const ONS = {
   debt:         ['/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/hf6w/pusf', 'months', 'prevYear', 'maybeMillions'],
   debt_gdp:     ['/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/hf6x/pusf', 'months', 'prevYear'],
 };
- 
+
 // Automatic checks. A live figure is only used if it passes all three:
 // 1. sense check: inside a plausible range for that statistic
 // 2. jump check: not wildly different from the last saved, verified figure (a big jump is held back for a person to check)
@@ -49,7 +49,7 @@ async function savedFigures(context) {
     return (await r.json()).figures || null;
   } catch (e) { return null; }
 }
- 
+
 const iso = (d) => (d instanceof Date && !isNaN(d)) ? d.toISOString().slice(0, 10) : null;
 const label = (s) => {
   // "2026 OCT" -> "Oct 2026"; "2026 Q3" -> "Jul–Sep 2026"; "2026 JUL-SEP" -> "Jul–Sep 2026"
@@ -60,13 +60,13 @@ const label = (s) => {
   return s;
 };
 const round = (v, p) => { const f = 10 ** p; return Math.round(v * f) / f; };
- 
+
 async function getJSON(url) {
   const r = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/json' }, cf: { cacheTtl: CACHE_SECONDS, cacheEverything: true } });
   if (!r.ok) throw new Error(`${url} -> ${r.status}`);
   return r.json();
 }
- 
+
 async function onsFigure(id, [path, list, mode, scale]) {
   const j = await getJSON(`https://www.ons.gov.uk${path}/data`);
   const rows = (j[list] || []).filter((r) => r.value !== '' && r.value !== null && !isNaN(parseFloat(r.value)));
@@ -99,7 +99,7 @@ async function onsFigure(id, [path, list, mode, scale]) {
   if (id === 'gdp_yoy') out.period = out.period + ' vs a year earlier';
   return out;
 }
- 
+
 async function bankRate() {
   const from = '01/Jan/2024';
   const url = `https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp?csv.x=yes&Datefrom=${from}&Dateto=now&SeriesCodes=IUDBEDR&CSVF=TN&UsingCodes=Y&VPD=Y&VFD=N`;
@@ -120,13 +120,13 @@ async function bankRate() {
     url: 'https://www.bankofengland.co.uk/monetary-policy/the-interest-rate-bank-rate',
   };
 }
- 
+
 export async function onRequest(context) {
   const cache = caches.default;
   const key = new Request(new URL('/api/live?v=4', context.request.url).toString());
   const hit = await cache.match(key);
   if (hit) return hit;
- 
+
   const jobs = Object.entries(ONS).map(([id, spec]) => onsFigure(id, spec).then((f) => [id, f]));
   jobs.push(bankRate().then((f) => ['bank_rate', f]));
   const [settled, saved] = await Promise.all([Promise.allSettled(jobs), savedFigures(context)]);
@@ -145,4 +145,3 @@ export async function onRequest(context) {
   if (Object.keys(figures).length) context.waitUntil(cache.put(key, res.clone()));
   return res;
 }
- 
