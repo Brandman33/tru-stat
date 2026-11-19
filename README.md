@@ -26,10 +26,11 @@ When someone opens the page, it shows the saved figures straight away, then asks
 | Core inflation | ONS | DKO8 |
 | Unemployment rate | ONS | MGSX |
 | GDP growth (quarter on quarter) | ONS | IHYQ |
+| GDP growth on a year ago | ONS | IHYR |
 | Borrowing in a month | ONS | J5II |
 | National debt (£) | ONS | HF6W |
 | Debt as % of GDP | ONS | HF6X |
-| Bank Rate | Bank of England | IUDBEDR |
+| Interest rate (Bank Rate) | Bank of England | IUDBEDR |
 
 A live figure replaces the saved one only if it was published on the same day or later. Live figures get a green dot on their date. If a source doesn't answer, the page keeps the saved figure, so nothing breaks.
 
@@ -62,6 +63,12 @@ Cloudflare finds the `functions` folder automatically. Every push to the reposit
 ## Check the live feed
 
 Open `https://<your-site>/api/live`. You'll see the figures it found and any sources that failed, under `errors`. If a source keeps failing, its address may have changed. The page carries on with the saved figure in the meantime.
+
+## Checking and corrections
+
+- `functions/api/live.js` runs three automatic checks before a live figure is used: a plausible range, a maximum jump from the saved figure, and that it is at least as new. Anything that fails is listed under `held_back` at `/api/live`, and the page shows it as "held back for a manual check".
+- `data/dashuk.json` has a `verification` section: for each figure id, `status` ("verified" or "second_hand"), `checked_on` (YYYY-MM-DD), `official_source`, `quote` and `table_or_series`. Cards show a green tick when verified, amber otherwise.
+- `data/dashuk.json` has a `corrections` list: `date`, `figure`, `change`, `reason`. It appears on the page as the public corrections log.
 
 ## Updating the saved figures
 
