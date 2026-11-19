@@ -25,7 +25,7 @@
    "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/october2026"
   },
   "bank_rate": {
-   "label": "Bank Rate",
+   "label": "Interest rate (Bank Rate)",
    "value": "4.00",
    "prev_value": "3.75",
    "prev_label": "before 5 Nov 2026",
@@ -375,6 +375,149 @@
    "next_update": "2026-11-26",
    "source": "UKHSA",
    "url": "https://www.gov.uk/government/news/latest-ukhsa-weekly-winter-virus-surveillance-data"
+  },
+  "gdp_yoy": {
+   "label": "GDP growth on a year ago",
+   "value": "1.9",
+   "prev_value": "1.4",
+   "prev_label": "Apr–Jun 2026",
+   "period": "Jul–Sep 2026 vs Jul–Sep 2025",
+   "published": "2026-11-12",
+   "next_update": "2026-12-22",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/bulletins/gdpfirstquarterlyestimateuk/julytoseptember2026"
+  },
+  "gdp_month": {
+   "label": "GDP growth in the latest month",
+   "value": "0.2",
+   "prev_value": "0.0",
+   "prev_label": "Aug 2026",
+   "period": "Sep 2026",
+   "published": "2026-11-12",
+   "next_update": "mid Dec 2026",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/bulletins/gdpfirstquarterlyestimateuk/julytoseptember2026"
+  },
+  "gdp_per_head": {
+   "label": "GDP per person",
+   "value": "0.7",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "Jul–Sep 2026 (up 1.7% on a year ago)",
+   "published": "2026-11-12",
+   "next_update": "2026-12-22",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/bulletins/gdpfirstquarterlyestimateuk/julytoseptember2026"
+  },
+  "gdp_2025": {
+   "label": "GDP growth in 2025",
+   "value": "1.2",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "calendar year 2025",
+   "published": "2026-11-12",
+   "next_update": "Blue Book 2027",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/bulletins/gdpfirstquarterlyestimateuk/julytoseptember2026"
+  },
+  "gdp_nominal_2025": {
+   "label": "GDP in cash terms, 2025",
+   "value": "4.8",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "calendar year 2025 (before taking off inflation)",
+   "published": "2026-11-12",
+   "next_update": "Blue Book 2027",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/bulletins/gdpfirstquarterlyestimateuk/julytoseptember2026"
+  },
+  "gdp_size": {
+   "label": "Size of the economy",
+   "value": "3040",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "calendar year 2025 (cash terms)",
+   "published": "2026-04",
+   "next_update": "2027",
+   "source": "ONS (reported by ICAEW)",
+   "url": "https://www.icaew.com/insights/viewpoints-on-the-news/2026/apr-2026/chart-of-the-week-a-3tn-economy"
+  },
+  "house_price": {
+   "label": "Average house price",
+   "value": "273000",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "Sep 2026 (provisional)",
+   "published": "2026-11-18",
+   "next_update": "2026-12-16",
+   "source": "ONS and HM Land Registry",
+   "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/privaterentandhousepricesuk/november2026"
+  },
+  "house_price_growth": {
+   "label": "House price growth",
+   "value": "1.2",
+   "prev_value": "1.2",
+   "prev_label": "12 months to Aug 2026",
+   "period": "12 months to Sep 2026 (provisional)",
+   "published": "2026-11-18",
+   "next_update": "2026-12-16",
+   "source": "ONS and HM Land Registry",
+   "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/privaterentandhousepricesuk/november2026"
+  },
+  "rent": {
+   "label": "Average monthly rent",
+   "value": "1411",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "Oct 2026 (UK)",
+   "published": "2026-11-18",
+   "next_update": "2026-12-16",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/privaterentandhousepricesuk/november2026"
+  },
+  "rent_growth": {
+   "label": "Rent growth",
+   "value": "3.8",
+   "prev_value": "3.8",
+   "prev_label": "12 months to Sep 2026",
+   "period": "12 months to Oct 2026",
+   "published": "2026-11-18",
+   "next_update": "2026-12-16",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/privaterentandhousepricesuk/november2026"
+  },
+  "rent_london": {
+   "label": "Average monthly rent in London",
+   "value": "2350",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "Oct 2026",
+   "published": "2026-11-18",
+   "next_update": "2026-12-16",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/privaterentandhousepricesuk/november2026"
+  },
+  "home_sales": {
+   "label": "Home sales in a month",
+   "value": "94800",
+   "prev_value": "95300",
+   "prev_label": "Aug 2026",
+   "period": "Sep 2026 (seasonally adjusted, provisional)",
+   "published": "2026-10-30",
+   "next_update": "2026-11-27",
+   "source": "HMRC",
+   "url": "https://www.gov.uk/government/statistics/monthly-property-transactions-completed-in-the-uk-with-value-40000-or-above/uk-monthly-property-transactions-commentary--2"
+  },
+  "hmos": {
+   "label": "Houses in multiple occupation (HMOs)",
+   "value": "472823",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "2023-24 estimate (England)",
+   "published": "2025-11-25",
+   "next_update": "newer 2024-25 figure published Feb 2026, being checked",
+   "source": "MHCLG, via a ministerial written answer",
+   "url": "https://questions-statements.parliament.uk/written-questions/detail/2025-11-17/91615"
   }
  },
  "pies": {
@@ -494,5 +637,40 @@
    "quarter": "Jul–Sep 2026",
    "value": 0.7
   }
- ]
+ ],
+ "house_by_nation": [
+  {
+   "area": "England",
+   "value": 293000,
+   "change": 0.8,
+   "period": "Sep 2026"
+  },
+  {
+   "area": "Wales",
+   "value": 215000,
+   "change": 1.8,
+   "period": "Sep 2026"
+  },
+  {
+   "area": "Scotland",
+   "value": 198000,
+   "change": 2.3,
+   "period": "Sep 2026"
+  },
+  {
+   "area": "Northern Ireland",
+   "value": 207000,
+   "change": 7.4,
+   "period": "Jul–Sep 2026"
+  }
+ ],
+ "corrections": [
+  {
+   "date": "2026-11-19",
+   "figure": "Unemployment",
+   "change": "Period label corrected from “3 months to Aug 2026” to “Jul–Sep 2026”.",
+   "reason": "The live feed misread how the ONS labels three-month figures. The rate itself (4.6%) was right."
+  }
+ ],
+ "verification": {}
 }
