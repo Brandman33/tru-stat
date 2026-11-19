@@ -4,285 +4,381 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>tru-stat</title>
-<meta name="description" content="tru-stat: the UK's key official figures on one page, in plain English, with the date of every number.">
+<meta name="description" content="tru-stat: the UK's key official figures on one page, in plain English, with the date and source of every number.">
 <style>
+@font-face { font-family: 'Open Sans'; font-weight: 300; font-display: swap; src: url(fonts/open-sans-latin-300-normal.woff2) format('woff2'); }
 @font-face { font-family: 'Open Sans'; font-weight: 400; font-display: swap; src: url(fonts/open-sans-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Open Sans'; font-weight: 500; font-display: swap; src: url(fonts/open-sans-latin-500-normal.woff2) format('woff2'); }
 @font-face { font-family: 'Open Sans'; font-weight: 600; font-display: swap; src: url(fonts/open-sans-latin-600-normal.woff2) format('woff2'); }
 @font-face { font-family: 'Open Sans'; font-weight: 700; font-display: swap; src: url(fonts/open-sans-latin-700-normal.woff2) format('woff2'); }
-@font-face { font-family: 'Open Sans'; font-weight: 800; font-display: swap; src: url(fonts/open-sans-latin-800-normal.woff2) format('woff2'); }
 :root {
-  --bg: #16171a; --panel: #212328; --panel2: #292c32; --fg: #ffffff; --mut: #a9adb6; --dim: #6f7480;
-  --mag: #FF3D9A; --ora: #FF8A1F; --lim: #9BE22D; --cya: #22D3EE; --vio: #A57BFF; --yel: #FFC93C; --muted: #4a4e58;
+  --bg: #16171a; --panel: #1f2126; --panel2: #292c32; --fg: #ffffff; --mut: #a9adb6; --dim: #767b86; --amber: #FFB020;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 36px;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; background: var(--bg); }
-body { color: var(--fg); font-family: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif; font-size: 14px; line-height: 1.45;
+body { color: var(--fg); font-family: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 1.45;
   background: radial-gradient(1200px 600px at 10% -10%, #2a2d34 0%, transparent 60%), radial-gradient(900px 500px at 110% 10%, #24222c 0%, transparent 55%), var(--bg); min-height: 100vh; }
 a { color: inherit; }
-.wrap { max-width: 1280px; margin: 0 auto; padding: 18px 16px 40px; display: flex; flex-direction: column; gap: 26px; }
-header.top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 10px 20px; }
-.brand { margin: 0; font-size: clamp(30px, 6vw, 46px); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
-.brand { color: #fff; text-transform: uppercase; letter-spacing: 0.01em; }
-.tagline { margin: 8px 0 0; font-size: clamp(17px, 2.6vw, 22px); font-weight: 700; color: var(--fg); letter-spacing: -0.01em; }
-.checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
-.check { border-radius: 12px; padding: 12px 14px; background: linear-gradient(155deg, color-mix(in srgb, var(--ac) 16%, var(--panel)), var(--panel)); }
-.check b { color: var(--ac); font-size: 14px; }
-.check p { margin: 4px 0 0; font-size: 13px; color: #d6d8dd; }
-.lede { margin: 6px 0 0; font-size: 16px; color: var(--mut); max-width: 68ch; }
-.lede b { color: var(--fg); font-weight: 800; }
-.pills { display: flex; flex-wrap: wrap; gap: 8px; }
-.pill { padding: 6px 12px; border-radius: 999px; background: var(--panel2); font-size: 12px; font-weight: 600; color: var(--mut); }
-.pill b { color: var(--fg); }
-.pill .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; background: var(--dim); vertical-align: 0; }
-.pill.live .dot { background: var(--lim); box-shadow: 0 0 0 3px rgba(155,226,45,.2); }
-section { display: flex; flex-direction: column; gap: 12px; }
-h2 { margin: 0; font-size: 19px; font-weight: 800; letter-spacing: -0.01em; }
-h2 small { font-size: 13px; font-weight: 400; color: var(--mut); margin-left: 8px; }
-.grid1 { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
-.grid2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 10px; }
-.card { --ac: var(--cya); position: relative; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 4px; min-width: 0;
-  background: linear-gradient(155deg, color-mix(in srgb, var(--ac) 26%, var(--panel)) 0%, color-mix(in srgb, var(--ac) 8%, var(--panel)) 100%); }
-.card.t2 { padding: 11px 12px; border-radius: 12px; background: linear-gradient(155deg, color-mix(in srgb, var(--ac) 14%, var(--panel)) 0%, var(--panel) 100%); }
-.card h3 { margin: 0; font-size: 13px; font-weight: 700; color: var(--ac); }
-.card .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.fig { margin: 0; font-weight: 800; letter-spacing: -0.03em; line-height: 1.02; color: var(--fg); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.card { container-type: inline-size; }
-.t1 .fig { font-size: min(56px, calc(100cqw / var(--len, 5))); cursor: pointer; }
-.t2 .fig { font-size: min(32px, calc(100cqw / var(--len, 6))); }
-.fig .u { font-size: 0.48em; font-weight: 700; margin-left: 2px; letter-spacing: 0; }
-.chg { margin: 0; font-size: 12.5px; font-weight: 700; color: var(--fg); }
+button { font: inherit; }
+.wrap { max-width: 1560px; margin: 0 auto; padding: var(--s5) clamp(12px, 2.5vw, 32px) var(--s6); display: flex; flex-direction: column; gap: var(--s6); }
+
+/* header */
+header.top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s4) var(--s5); align-items: end; }
+.brand { margin: 0; font-size: clamp(34px, 6vw, 56px); font-weight: 700; letter-spacing: 0.01em; line-height: 1; text-transform: uppercase; color: #fff; }
+.tagline { margin: var(--s3) 0 0; font-size: clamp(17px, 2.2vw, 22px); font-weight: 600; letter-spacing: -0.005em; }
+.lede { margin: var(--s2) 0 0; font-size: 15px; color: var(--mut); max-width: 70ch; }
+.lede b { color: var(--fg); font-weight: 600; }
+.side-top { display: flex; flex-direction: column; align-items: flex-end; gap: var(--s3); }
+.quick { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--s2); max-width: 520px; }
+.quick button { --ac: #fff; cursor: pointer; border: 1px solid color-mix(in srgb, var(--ac) 60%, transparent); background: color-mix(in srgb, var(--ac) 16%, var(--panel)); color: var(--fg);
+  border-radius: 999px; padding: 5px 12px; font-size: 12.5px; font-weight: 500; transition: background .15s; }
+.quick button:hover, .quick button:focus-visible { background: color-mix(in srgb, var(--ac) 32%, var(--panel)); outline: none; }
+.pills { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--s2); }
+.pill { margin: 0; padding: 6px 12px; border-radius: 999px; background: var(--panel2); font-size: 12px; color: var(--mut); }
+.pill b { color: var(--fg); font-weight: 600; }
+.pill .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; background: var(--dim); }
+.pill.live .dot { background: #9BE22D; box-shadow: 0 0 0 3px rgba(155,226,45,.2); }
+
+/* layout: main stats + talking points on the right */
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) clamp(280px, 27%, 420px); gap: var(--s6) var(--s5); align-items: start; }
+.main { display: flex; flex-direction: column; gap: var(--s6); min-width: 0; }
+aside.today { position: sticky; top: var(--s4); display: flex; flex-direction: column; gap: var(--s3); min-width: 0; }
+section { display: flex; flex-direction: column; gap: var(--s3); }
+h2 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+h2 .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--sc, #fff); margin-right: 10px; vertical-align: 2px; }
+
+/* cards */
+.grid1 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s3); }
+.talks { display: flex; flex-direction: column; gap: var(--s3); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); gap: var(--s3); }
+.grid3 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s3); }
+.card { --ac: #5B8CFF; container-type: inline-size; position: relative; border-radius: 14px; padding: var(--s4); display: flex; flex-direction: column; gap: var(--s2); min-width: 0;
+  border: 1px solid color-mix(in srgb, var(--ac) 55%, transparent);
+  background: linear-gradient(155deg, color-mix(in srgb, var(--ac) 20%, var(--panel)) 0%, color-mix(in srgb, var(--ac) 6%, var(--panel)) 100%); transition: box-shadow .3s; }
+.card.flash { box-shadow: 0 0 0 3px var(--ac); }
+.card h3 { margin: 0; font-size: 22px; font-weight: 500; line-height: 1.2; color: var(--ac); letter-spacing: -0.01em; }
+.t2 h3 { font-size: 19px; }
+.fig { margin: 0; font-weight: 600; letter-spacing: -0.02em; line-height: 1.02; color: var(--fg); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.t1 .fig { font-size: min(62px, calc(100cqw / var(--len, 5))); cursor: pointer; }
+.t2 .fig { font-size: min(38px, calc(100cqw / var(--len, 6))); }
+.fig .u { font-size: 0.55em; font-weight: 300; margin-left: 2px; letter-spacing: 0; }
+.fig .pre { font-weight: 400; }
+.chg { margin: 0; font-size: 13px; font-weight: 500; }
 .chg .vs { font-weight: 400; color: var(--mut); }
-.chg.good .arr { color: var(--lim); } .chg.bad .arr { color: #FF6B6B; }
-.per { margin: 0; font-size: 12px; color: var(--mut); }
-.stamp { margin: 6px 0 0; align-self: flex-start; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--ac) 30%, transparent); color: var(--fg); }
-.stamp .lv { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--lim); margin-right: 5px; }
-details.what { font-size: 12px; color: var(--mut); }
-details.what summary { cursor: pointer; font-weight: 600; list-style: none; color: var(--mut); }
+.chg.good .arr { color: #9BE22D; } .chg.bad .arr { color: #FF6B6B; }
+.chg.flat { color: var(--amber); } .chg.flat .vs { color: color-mix(in srgb, var(--amber) 70%, var(--mut)); }
+.per { margin: 0; font-size: 12.5px; color: var(--mut); }
+.stamp { margin: 0; align-self: flex-start; font-size: 12px; font-weight: 400; padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--ac) 22%, transparent); color: var(--fg); }
+.stamp .lv { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #9BE22D; margin-right: 6px; vertical-align: 1px; }
+details.what { font-size: 12.5px; color: var(--mut); }
+details.what summary { cursor: pointer; list-style: none; color: var(--mut); display: inline-flex; align-items: center; gap: 4px; }
 details.what summary::-webkit-details-marker { display: none; }
-details.what summary::after { content: ' ▾'; } details.what[open] summary::after { content: ' ▴'; }
-details.what p { margin: 5px 0 0; }
+details.what summary::after { content: '▾'; font-size: 22px; line-height: 0.6; transition: transform .2s; }
+details.what[open] summary::after { transform: rotate(180deg); }
+details.what p { margin: var(--s1) 0 0; }
+.ringline { display: flex; align-items: center; gap: var(--s3); }
 .ring { flex: none; }
-.ring text { font-family: inherit; font-weight: 800; fill: var(--fg); }
-.ringline { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
-.ringcap { font-size: 12px; color: var(--mut); line-height: 1.3; min-width: 0; }
+.ring text { font-family: inherit; font-weight: 500; fill: var(--fg); }
+.ringcap { font-size: 12.5px; color: var(--mut); line-height: 1.35; min-width: 0; }
 /* slot machine */
 .slot { display: inline-flex; align-items: flex-start; }
 .reel { display: inline-block; height: 1.02em; overflow: hidden; position: relative; }
 .strip { display: flex; flex-direction: column; will-change: transform; }
 .strip span { height: 1.02em; line-height: 1.02em; display: block; text-align: center; }
-.facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
-.fact { margin: 0; padding: 12px 14px; border-radius: 12px; background: var(--panel); color: var(--mut); font-size: 13px; }
-.fact b { display: block; color: var(--fg); font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
-.pies { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
-.piecard { border-radius: 14px; background: var(--panel); padding: 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; position: relative; }
-.piecard h3 { margin: 0; font-size: 14px; font-weight: 700; }
-.piebody { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
-.legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; flex: 1; min-width: 130px; color: var(--mut); }
-.legend li { display: flex; align-items: center; gap: 8px; }
-.legend i { width: 11px; height: 11px; border-radius: 50%; flex: none; }
-.legend b { color: var(--fg); font-weight: 800; min-width: 3.2em; font-variant-numeric: tabular-nums; }
-.note { margin: 0; font-size: 11.5px; color: var(--dim); }
-.talks { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
-.talk { --ac: var(--lim); border-radius: 14px; padding: 14px; background: linear-gradient(155deg, color-mix(in srgb, var(--ac) 20%, var(--panel)), var(--panel)); display: flex; flex-direction: column; gap: 5px; }
-.talk .tag { margin: 0; font-size: 12px; font-weight: 700; color: var(--ac); }
-.talk h3 { margin: 0; font-size: 16px; font-weight: 800; line-height: 1.3; }
+
+.facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: var(--s3); }
+.fact { --ac: #5B8CFF; margin: 0; padding: var(--s3) var(--s4); border-radius: 12px; background: var(--panel); border: 1px solid color-mix(in srgb, var(--ac) 40%, transparent); color: var(--mut); font-size: 13px; }
+.fact b { display: block; color: var(--fg); font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
+
+/* pies */
+.pies { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr)); gap: var(--s3); }
+.piecard { --ac: #fff; border-radius: 14px; background: var(--panel); border: 1px solid color-mix(in srgb, var(--ac) 45%, transparent); padding: var(--s4); display: flex; flex-direction: column; gap: var(--s3); min-width: 0; position: relative; }
+.piecard h3 { margin: 0; font-size: 15px; font-weight: 500; }
+.piebody { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); }
+.legend { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 11px max-content minmax(0, 1fr); gap: 6px 10px; align-items: center; font-size: 12.5px; flex: 1; min-width: 160px; color: var(--mut); }
+.legend li { display: contents; }
+.legend i { width: 11px; height: 11px; border-radius: 50%; }
+.legend b { color: var(--fg); font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.note { margin: 0; font-size: 12px; color: var(--dim); }
+
+/* talking points */
+.talk { --ac: #3EE0B0; border-radius: 14px; padding: var(--s4); border: 1px solid color-mix(in srgb, var(--ac) 55%, transparent); background: linear-gradient(155deg, color-mix(in srgb, var(--ac) 16%, var(--panel)), var(--panel)); display: flex; flex-direction: column; gap: var(--s2); }
+.talk .tag { margin: 0; font-size: 12.5px; font-weight: 500; color: var(--ac); }
+.talk h3 { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.3; }
 .talk p { margin: 0; font-size: 13px; color: var(--mut); }
-.gap { border-radius: 14px; padding: 14px 16px; background: linear-gradient(155deg, color-mix(in srgb, var(--ora) 18%, var(--panel)), var(--panel)); font-size: 13.5px; }
-.gap h3 { margin: 0 0 8px; font-size: 15px; font-weight: 800; color: var(--ora); }
-.gap ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; color: #dcdee3; }
-.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px; }
-.chart { border-radius: 14px; background: var(--panel); padding: 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; position: relative; }
-.chart h3 { margin: 0; font-size: 14px; font-weight: 700; }
+.talk .src { font-size: 12px; }
+
+.gap { --ac: #E879F9; border-radius: 14px; padding: var(--s4); border: 1px solid color-mix(in srgb, var(--ac) 45%, transparent); background: linear-gradient(155deg, color-mix(in srgb, var(--ac) 12%, var(--panel)), var(--panel)); font-size: 13.5px; }
+.gap h3 { margin: 0 0 var(--s2); font-size: 16px; font-weight: 600; color: var(--ac); }
+.gap ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: var(--s2); color: #d6d8dd; }
+
+.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: var(--s3); }
+.chart { --ac: #fff; border-radius: 14px; background: var(--panel); border: 1px solid color-mix(in srgb, var(--ac) 45%, transparent); padding: var(--s4); display: flex; flex-direction: column; gap: var(--s2); min-width: 0; position: relative; }
+.chart h3 { margin: 0; font-size: 15px; font-weight: 500; }
 .plot { position: relative; min-height: 210px; }
 .plot svg text { font-family: inherit; font-size: 11px; fill: var(--mut); }
-.plot svg .vl { fill: var(--fg); font-size: 12px; font-weight: 800; }
-.ctl { display: flex; gap: 8px; align-items: center; font-size: 12.5px; color: var(--mut); flex-wrap: wrap; }
-.ctl select { background: var(--panel2); color: var(--fg); border: 0; border-radius: 8px; padding: 4px 8px; font: inherit; }
-.tip { position: absolute; pointer-events: none; z-index: 10; background: #fff; color: #111; border-radius: 8px; padding: 5px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; box-shadow: 0 6px 20px rgba(0,0,0,.4); }
-.tw { overflow-x: auto; border-radius: 14px; background: var(--panel); }
+.plot svg .vl { fill: var(--fg); font-size: 12px; font-weight: 500; }
+.ctl { display: flex; gap: var(--s2); align-items: center; font-size: 12.5px; color: var(--mut); flex-wrap: wrap; }
+.ctl select { background: var(--panel2); color: var(--fg); border: 1px solid #3a3d44; border-radius: 8px; padding: 4px 8px; font: inherit; }
+.tip { position: absolute; pointer-events: none; z-index: 10; background: #fff; color: #111; border-radius: 8px; padding: 5px 10px; font-size: 12px; font-weight: 500; white-space: nowrap; box-shadow: 0 6px 20px rgba(0,0,0,.4); }
+.checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: var(--s3); }
+.check { border-radius: 12px; padding: var(--s3) var(--s4); background: var(--panel); border: 1px solid #3a3d44; }
+.check b { font-size: 14px; font-weight: 600; }
+.check p { margin: var(--s1) 0 0; font-size: 13px; color: #c9ccd2; }
+.tw { overflow-x: auto; border-radius: 14px; background: var(--panel); border: 1px solid #3a3d44; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th, td { text-align: left; padding: 9px 12px; }
-th { color: var(--mut); font-weight: 600; font-size: 12px; }
+th, td { text-align: left; padding: 9px 14px; }
+th { color: var(--mut); font-weight: 500; font-size: 12px; }
 tbody tr:nth-child(odd) { background: rgba(255,255,255,.03); }
 details.small { font-size: 12.5px; color: var(--mut); }
-details.small summary { cursor: pointer; font-weight: 700; color: var(--fg); }
-details.small li { margin-bottom: 5px; }
-@media (max-width: 420px) { .wrap { padding: 14px 10px 30px; } .grid1 { grid-template-columns: 1fr 1fr; gap: 8px; } .grid2 { grid-template-columns: 1fr 1fr; gap: 8px; } }
+details.small summary { cursor: pointer; font-weight: 500; color: var(--fg); }
+details.small li { margin-bottom: var(--s1); }
+
+/* responsive */
+@media (max-width: 1100px) {
+  header.top { grid-template-columns: 1fr; }
+  .side-top { align-items: flex-start; }
+  .quick, .pills { justify-content: flex-start; max-width: none; }
+  .layout { display: flex; flex-direction: column; align-items: stretch; gap: var(--s6); }
+  .layout > *, .main > * { width: 100%; }
+  .main { display: contents; }
+  #big6 { order: 1; } aside.today { order: 2; position: static; } .main > section:not(#big6), .main > details { order: 3; }
+  .grid3 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); }
+  .talks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: var(--s3); }
+}
+@media (max-width: 760px) { .grid1 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) {
+  .grid1, .grid2, .grid3 { grid-template-columns: 1fr 1fr; gap: var(--s2); }
+  .card { padding: var(--s3); gap: 6px; }
+  .card h3 { font-size: 17px; } .t2 h3 { font-size: 15px; }
+  .ringline { flex-direction: column; align-items: flex-start; gap: var(--s1); }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
     <div>
-      <h1 class="brand"><span>tru-stat</span></h1>
-      <p class="tagline">Parties argue about the numbers. These are the official ones.</p>
+      <h1 class="brand">tru-stat</h1>
+      <p class="tagline">Cut through the waffle: live data, taken straight from true, official sources.</p>
       <p class="lede" id="lede">Loading the latest official figures…</p>
     </div>
-    <div class="pills">
-      <p class="pill" id="fresh">Freshest figure: <b>…</b></p>
-      <p class="pill" id="livepill"><span class="dot"></span>Checking for live figures…</p>
+    <div class="side-top">
+      <nav class="quick" id="quick" aria-label="Quick links"></nav>
+      <div class="pills">
+        <p class="pill" id="fresh">Freshest figure: <b>…</b></p>
+        <p class="pill" id="livepill"><span class="dot"></span>Checking for live figures…</p>
+      </div>
     </div>
   </header>
 
-  <section id="big6"><h2>The big six</h2><div class="grid1" id="g-big6"></div></section>
-  <section id="watch"><h2>Also worth watching</h2><div class="grid2" id="g-watch"></div><div class="facts" id="facts"></div></section>
-  <section id="today"><h2>Today’s talking points</h2><div class="talks" id="talks"></div><div class="grid2" id="g-today"></div></section>
-  <section id="immigration"><h2>Immigration</h2><div class="grid2" id="g-imm"></div><div class="pies" id="p-imm"></div></section>
-  <section id="crime"><h2>Crime and immigration</h2><div class="grid2" id="g-crime"></div><div class="pies" id="p-crime"></div>
-    <div class="gap">
-      <h3>What isn’t published, and why it’s hard to find</h3>
-      <ul>
-        <li>Police recorded crime figures don’t include the nationality or immigration status of suspects. A Home Office minister confirmed this in a written answer on 28 April 2026.</li>
-        <li>The Ministry of Justice publishes how many foreign nationals are in prison every quarter, but not convictions by nationality. It says prisoners’ immigration status is held by the Home Office, not by the Ministry.</li>
-        <li>On 22 June 2026 the Information Commissioner ordered the Ministry of Justice to release convictions by nationality for 2018 to 2024, after a Freedom of Information request. The Ministry appealed to the First-tier Tribunal on 17 July 2026. No ruling had been reported by mid-November.</li>
-        <li>In April 2025 the Home Office said it intends to publish more statistics on foreign national offenders once its data systems are upgraded.</li>
-      </ul>
+  <div class="layout">
+    <div class="main">
+      <section id="big6"><h2>The big six</h2><div class="grid1" id="g-big6"></div></section>
+      <section id="watch"><h2><span class="sw"></span>Also worth watching</h2><div class="grid2" id="g-watch"></div><div class="facts" id="facts"></div></section>
+      <section id="immigration"><h2><span class="sw"></span>Immigration</h2><div class="grid2" id="g-imm"></div><div class="pies" id="p-imm"></div></section>
+      <section id="crime"><h2><span class="sw"></span>Crime and immigration</h2><div class="grid2" id="g-crime"></div><div class="pies" id="p-crime"></div>
+        <div class="gap">
+          <h3>What isn’t published, and why it’s hard to find</h3>
+          <ul>
+            <li>Police recorded crime figures don’t include the nationality or immigration status of suspects. A Home Office minister confirmed this in a written answer on 28 April 2026.</li>
+            <li>The Ministry of Justice publishes how many foreign nationals are in prison every quarter, but not convictions by nationality. It says prisoners’ immigration status is held by the Home Office, not by the Ministry.</li>
+            <li>On 22 June 2026 the Information Commissioner ordered the Ministry of Justice to release convictions by nationality for 2018 to 2024, after a Freedom of Information request. The Ministry appealed to the First-tier Tribunal on 17 July 2026. No ruling had been reported by mid-November.</li>
+            <li>In April 2025 the Home Office said it intends to publish more statistics on foreign national offenders once its data systems are upgraded.</li>
+          </ul>
+        </div>
+      </section>
+      <section id="money"><h2><span class="sw"></span>Where the money goes</h2><div class="pies" id="p-money"></div></section>
+      <section id="time"><h2><span class="sw"></span>Over time</h2>
+        <div class="charts">
+          <div class="chart" id="chart-aid"><h3>Foreign aid by year</h3>
+            <div class="ctl"><label>From <select id="aidfrom" aria-label="From year"></select></label><label>to <select id="aidto" aria-label="To year"></select></label></div>
+            <div class="plot" id="aidchart"></div><p class="note">Aid is counted by calendar year only. Faded bars are early (provisional) figures.</p></div>
+          <div class="chart" id="chart-rate"><h3>Bank Rate since August 2025</h3><div class="plot" id="ratechart"></div><p class="note">Dots mark decisions that changed the rate.</p></div>
+          <div class="chart" id="chart-gdp"><h3>Growth each quarter of 2026</h3><div class="plot" id="gdpchart"></div><p class="note">Compared with the quarter before. First estimates often get revised.</p></div>
+        </div>
+      </section>
+      <section id="check"><h2>How to check a claim</h2>
+        <div class="checks">
+          <div class="check"><b>Same measure?</b><p>“Inflation” can mean CPI, CPIH or RPI. “Debt” can include or exclude the Bank of England. A claim is only comparable if it uses the same measure.</p></div>
+          <div class="check"><b>Same period?</b><p>A month, a quarter, a tax year (April to March) and a calendar year can all give different answers. Check the line under each figure.</p></div>
+          <div class="check"><b>Latest figure?</b><p>Official figures get revised. Check the “Latest data” date: an older number may have been updated since.</p></div>
+          <div class="check"><b>Who published it?</b><p>Every figure here comes from an official statistics body or government department, and links to the original. Party, campaign and think-tank figures are never used.</p></div>
+        </div>
+      </section>
+      <section id="next"><h2>Coming up next</h2><div class="tw"><table><thead><tr><th>Figure</th><th>Next update</th><th>Published by</th></tr></thead><tbody id="upcoming"></tbody></table></div></section>
+      <details class="small">
+        <summary>The small print</summary>
+        <ul>
+          <li>tru-stat shows official figures only, without commentary, and doesn’t take a side on any policy or party.</li>
+          <li>A green dot on a date means the figure was fetched live from the ONS or the Bank of England when you opened the page. Everything else is the latest saved official figure, updated whenever the site is refreshed.</li>
+          <li>Two figures are official Home Office numbers as reported by the PA news agency, because the official page couldn’t be read directly: small boats so far in 2026, and asylum seekers in hotels.</li>
+          <li>K = thousand, M = million, Bn = billion, Tn = trillion.</li>
+          <li>Many figures are first estimates and get revised, especially borrowing, debt, GDP and migration.</li>
+          <li>HMRC counts tax when the cash arrives; the ONS counts it when it’s owed. Their totals can differ.</li>
+          <li>Prison figures cover England and Wales. Health figures are for England.</li>
+          <li>Today’s talking points are short summaries written from Met Office and UKHSA releases.</li>
+          <li>Rings and pies only show a real share of a whole, or progress towards a stated target.</li>
+          <li>Quick links reorder themselves around what you open most. This is remembered only in your own browser.</li>
+        </ul>
+      </details>
     </div>
-  </section>
-  <section id="money"><h2>Where the money goes</h2><div class="pies" id="p-money"></div></section>
-  <section id="time"><h2>Over time</h2>
-    <div class="charts">
-      <div class="chart"><h3>Foreign aid by year (£m)</h3>
-        <div class="ctl"><label>From <select id="aidfrom" aria-label="From year"></select></label><label>to <select id="aidto" aria-label="To year"></select></label></div>
-        <div class="plot" id="aidchart"></div><p class="note">Aid is counted by calendar year only. Faded bars are early (provisional) figures.</p></div>
-      <div class="chart"><h3>Bank Rate since August 2025 (%)</h3><div class="plot" id="ratechart"></div><p class="note">Dots mark decisions that changed the rate.</p></div>
-      <div class="chart"><h3>Growth each quarter of 2026 (%)</h3><div class="plot" id="gdpchart"></div><p class="note">Compared with the quarter before. First estimates often get revised.</p></div>
-    </div>
-  </section>
-  <section id="next"><h2>Coming up next</h2><div class="tw"><table><thead><tr><th>Figure</th><th>Next update</th><th>Published by</th></tr></thead><tbody id="upcoming"></tbody></table></div></section>
-  <section id="check"><h2>How to check a claim</h2>
-    <div class="checks">
-      <div class="check" style="--ac:var(--mag)"><b>Same measure?</b><p>“Inflation” can mean CPI, CPIH or RPI. “Debt” can include or exclude the Bank of England. A claim is only comparable if it uses the same measure.</p></div>
-      <div class="check" style="--ac:var(--ora)"><b>Same period?</b><p>A month, a quarter, a tax year (April to March) and a calendar year can all give different answers. Check the “Covers” line on each card.</p></div>
-      <div class="check" style="--ac:var(--lim)"><b>Latest figure?</b><p>Official figures get revised. Check the “Latest data as of” date: an older number may have been updated since.</p></div>
-      <div class="check" style="--ac:var(--cya)"><b>Who published it?</b><p>Every figure here comes from an official statistics body or government department, and links to the original. Party press releases, think tanks and campaigns are not used as sources.</p></div>
-    </div>
-  </section>
-  <details class="small">
-    <summary>The small print</summary>
-    <ul><li>DashUK shows official figures only, without commentary. It doesn’t take a side on any policy or party.</li></ul>
-    <ul>
-      <li>Every figure comes from an official source, linked under “What is this?” on its card.</li>
-      <li>A green dot on a date means the figure was fetched live from the ONS or the Bank of England when you opened the page. Everything else is the latest saved figure, refreshed whenever the site is updated.</li>
-      <li>Two figures are official Home Office numbers as reported by the PA news agency, because the official page couldn’t be read directly: small boats so far in 2026, and asylum seekers in hotels.</li>
-      <li>Many figures are first estimates and get revised, especially borrowing, debt, GDP and migration.</li>
-      <li>HMRC counts tax when the cash arrives; the ONS counts it when it’s owed. Their totals can differ.</li>
-      <li>Prison figures cover England and Wales. Health figures are for England.</li>
-      <li>Today’s talking points are short summaries written from Met Office and UKHSA releases.</li>
-      <li>Rings show a real share of a whole, or progress towards a stated target, never an arbitrary scale.</li>
-    </ul>
-  </details>
+
+    <aside class="today" id="today" aria-label="Today’s talking points">
+      <h2><span class="sw"></span>Today’s talking points</h2>
+      <div class="talks" id="talks"></div>
+      <div class="grid3" id="g-today"></div>
+    </aside>
+  </div>
 </div>
 
 <script>
 (() => {
 'use strict';
-const C = { mag: '#FF3D9A', ora: '#FF8A1F', lim: '#9BE22D', cya: '#22D3EE', vio: '#A57BFF', yel: '#FFC93C', muted: '#4a4e58' };
-const PAL = [C.mag, C.ora, C.lim, C.cya, C.vio, C.yel];
+const C = { mag: '#FF3D9A', ora: '#FF8A1F', lim: '#9BE22D', cya: '#22D3EE', vio: '#A57BFF', yel: '#FFC93C' };
+// one colour per section after the big six
+const SEC = { watch: '#5B8CFF', imm: '#FF7A59', crime: '#E879F9', money: '#2DD4BF', today: '#3EE0B0', time: '#C4B5FD' };
 const RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const $ = (s) => document.querySelector(s);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
 const SVGNS = 'http://www.w3.org/2000/svg';
 const sv = (tag, attrs) => { const e = document.createElementNS(SVGNS, tag); for (const k in attrs || {}) e.setAttribute(k, attrs[k]); return e; };
-const num = (v) => { if (v === null || v === undefined || v === '') return '—'; let s = String(v); const neg = s.startsWith('-'); if (neg) s = s.slice(1); const p = s.split('.'); return (neg ? '-' : '') + p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (p.length > 1 ? '.' + p[1] : ''); };
+const commas = (s) => { s = String(s); const neg = s.startsWith('-'); if (neg) s = s.slice(1); const p = s.split('.'); return (neg ? '-' : '') + p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (p.length > 1 ? '.' + p[1] : ''); };
 const date = (s) => { if (!s) return '—'; const m = /^(\d{4})-(\d{2})(?:-(\d{2}))?$/.exec(String(s)); if (!m) return String(s); return m[3] ? `${+m[3]} ${MON[+m[2]-1]} ${m[1]}` : `${MON[+m[2]-1]} ${m[1]}`; };
 const places = (s) => (String(s).split('.')[1] || '').length;
-
-// Card definitions: [id, prefix, unit, change unit, good direction, label, description, colour, ring]
-// ring: function(F) -> {pct, text, cap} using real shares only
-const share = (a, b) => (F) => { const x = +F[a].value, y = +F[b].value; return { pct: x / y * 100 }; };
-const CARDS = {
-  big6: [
-    ['cpi', '', '%', 'pts', 'down', 'Inflation', 'How much more the same basket of shopping costs than a year ago (CPI). The Bank of England aims for 2%.', C.mag],
-    ['bank_rate', '', '%', 'pts', '', 'Bank Rate', 'The Bank of England’s main interest rate. It steers mortgage, loan and savings rates.', C.ora],
-    ['gdp', '', '%', 'pts', 'up', 'Economic growth', 'How much bigger the whole economy (GDP) got compared with the three months before.', C.lim],
-    ['aid', '£', 'm', 'm', '', 'Foreign aid', 'Official Development Assistance for 2025: money for poorer countries, counted under international (OECD) rules.', C.cya,
-      (F) => ({ pct: +F.aid_gni.value / 0.7 * 100, text: num(F.aid_gni.value) + '%', cap: 'of national income (the legal target is 0.7%)' })],
-    ['welfare', '£', 'bn', '', '', 'Welfare spending', 'All benefits and the State Pension paid by the Department for Work and Pensions in Great Britain, April 2025 to March 2026.', C.vio,
-      (F) => { const p = +F.welfare.value / +F.spending.value * 100; return { pct: p, text: Math.round(p) + '%', cap: 'of all public spending' }; }],
-    ['tax_ytd', '£', 'bn', 'bn', '', 'Tax take this year', 'Tax and National Insurance collected by HMRC since the tax year began on 6 April.', C.yel,
-      (F) => { const p = +F.tax_year.value / +F.spending.value * 100; return { pct: p, text: Math.round(p) + '%', cap: 'of public spending covered by HMRC tax last year' }; }],
-  ],
-  watch: [
-    ['unemployment', '', '%', 'pts', 'down', 'Unemployment', 'Share of people who want a job and are looking, but don’t have one. The ONS warns the survey behind it is less reliable than usual.', C.mag, (F) => ({ pct: +F.unemployment.value, cap: 'of the workforce' })],
-    ['core_cpi', '', '%', 'pts', 'down', 'Core inflation', 'Inflation without energy, food, alcohol and tobacco, which jump around.', C.mag],
-    ['borrowing', '£', 'bn', 'bn', '', 'Borrowing in a month', 'The gap between what the government spent and what it took in, in one month.', C.yel],
-    ['debt', '£', 'bn', 'bn', '', 'National debt', 'Public sector net debt excluding public sector banks: what the public sector owes, minus its cash and easy-to-sell assets.', C.yel],
-    ['debt_gdp', '', '%', 'pts', '', 'Debt vs the economy', 'The debt compared with the value of everything the UK produces in a year.', C.yel, (F) => ({ pct: Math.min(100, +F.debt_gdp.value), cap: 'of a year’s GDP' })],
-    ['debt_interest', '£', 'bn', 'bn', '', 'Debt interest in a month', 'Interest central government paid on its debt in one month.', C.yel],
-    ['tax_year', '£', 'bn', '', '', 'Tax take last year', 'Everything HMRC collected in the last full tax year.', C.yel],
-    ['spending', '£', 'bn', '', '', 'All public spending', 'Everything the public sector spent in a year: day-to-day plus investment.', C.vio],
-    ['pension', '£', 'bn', '', '', 'State Pension', 'The biggest single slice of the welfare bill.', C.vio, (F) => ({ pct: +F.pension.value / +F.welfare.value * 100, cap: 'of welfare spending' })],
-    ['aid_refugee', '£', 'm', 'm', '', 'Aid spent in the UK', 'Part of the aid total spent supporting refugees and asylum seekers in their first year in the UK.', C.cya, (F) => ({ pct: +F.aid_refugee.value / +F.aid.value * 100, cap: 'of all aid' })],
-  ],
-  today: [
-    ['flu_pos', '', '%', 'pts', 'down', 'Flu positivity', 'Share of flu tests in hospitals that came back positive.', C.lim, (F) => ({ pct: +F.flu_pos.value, cap: 'of tests positive' })],
-    ['flu_hosp', '', ' per 100k', ' per 100k', 'down', 'Flu in hospital', 'New hospital admissions with flu per 100,000 people in a week.', C.lim],
-    ['covid_pos', '', '%', 'pts', 'down', 'COVID-19 positivity', 'Share of COVID-19 tests in hospitals that came back positive.', C.cya, (F) => ({ pct: +F.covid_pos.value, cap: 'of tests positive' })],
-    ['covid_hosp', '', ' per 100k', ' per 100k', 'down', 'COVID-19 in hospital', 'New hospital admissions with COVID-19 per 100,000 people in a week.', C.cya],
-    ['rsv_pos', '', '%', 'pts', 'down', 'RSV positivity', 'Share of RSV tests that came back positive. RSV mainly affects babies and older people.', C.vio, (F) => ({ pct: +F.rsv_pos.value, cap: 'of tests positive' })],
-    ['norovirus', '+', '%', '', '', 'Norovirus', 'Winter vomiting bug lab reports, compared with the average of the last five seasons.', C.ora],
-    ['rotavirus', '+', '%', '', '', 'Rotavirus', 'Stomach bug lab reports, compared with the average of the last five seasons. UKHSA says this is above expected levels.', C.ora],
-  ],
-  imm: [
-    ['net_migration', '', '', '', '', 'Net migration', 'People moving to the UK for a year or more, minus people leaving for a year or more. Provisional and often revised.', C.cya],
-    ['immigration', '', '', '', '', 'Arriving long-term', 'People who moved to the UK for at least 12 months.', C.cya],
-    ['emigration', '', '', '', '', 'Leaving long-term', 'People who left the UK for at least 12 months, including British citizens.', C.cya],
-    ['asylum_claims', '', '', '', '', 'Asylum claims', 'People (main applicants and dependants) who claimed asylum in the UK over 12 months.', C.ora],
-    ['small_boats_year', '', '', '', '', 'Small boat arrivals', 'People detected arriving by small boat across the Channel over 12 months (official quarterly figure).', C.ora],
-    ['small_boats_ytd', '', '', null, '', 'Small boats in 2026 so far', 'Provisional daily Home Office count since 1 January, as reported by the PA news agency. The quarterly figures are the final ones.', C.ora],
-    ['asylum_hotels', '', '', '', '', 'Asylum seekers in hotels', 'People in asylum support housed temporarily in hotels at the end of the period.', C.ora],
-  ],
-  crime: [
-    ['fno_prison', '', '', null, '', 'Foreign nationals in prison', 'Prisoners in England and Wales who are not British nationals: on remand, sentenced, or held under immigration powers. Down 5% on a year earlier.', C.mag],
-    ['fno_share', '', '%', 'pts', '', 'Share of all prisoners', 'Foreign nationals as a share of everyone in prison in England and Wales.', C.mag, (F) => ({ pct: +F.fno_share.value, cap: 'of prisoners' })],
-    ['prison_total', '', '', '', '', 'Total prison population', 'Everyone in prison in England and Wales.', C.vio],
-  ],
+const mix = (hex, t) => { // t>0 lighten towards white, t<0 darken towards black
+  const n = parseInt(hex.slice(1), 16); let r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+  const f = (c) => Math.round(t >= 0 ? c + (255 - c) * t : c * (1 + t));
+  return '#' + [f(r), f(g), f(b)].map((x) => x.toString(16).padStart(2, '0')).join('');
 };
+const shades = (hex) => [hex, mix(hex, 0.45), mix(hex, -0.35), mix(hex, 0.75), mix(hex, -0.6)];
+const OTHER = '#4a4e58';
 
-let DATA = null, LIVE = {};
+// ---------- number formatting: K, M, Bn, Tn ----------
+function money(pounds) {
+  const a = Math.abs(pounds);
+  if (a >= 1e12) return { pre: '£', n: (pounds / 1e12).toFixed(3), u: 'Tn' };
+  if (a >= 1e9) return { pre: '£', n: (pounds / 1e9).toFixed(1), u: 'Bn' };
+  if (a >= 1e6) return { pre: '£', n: a >= 1e8 ? Math.round(pounds / 1e6).toString() : (pounds / 1e6).toFixed(1), u: 'M' };
+  if (a >= 1e3) return { pre: '£', n: Math.round(pounds / 1e3).toString(), u: 'K' };
+  return { pre: '£', n: String(Math.round(pounds)), u: '' };
+}
+function count(v) {
+  const a = Math.abs(v);
+  if (a >= 1e6) return { pre: '', n: (v / 1e6).toFixed(2), u: 'M' };
+  if (a >= 1e5) return { pre: '', n: Math.round(v / 1e3).toString(), u: 'K' };
+  if (a >= 1e3) return { pre: '', n: (v / 1e3).toFixed(1), u: 'K' };
+  return { pre: '', n: String(v), u: '' };
+}
+// kind: pct | pluspct | rate | m (£ million) | bn (£ billion) | count
+function fmt(value, kind, dp) {
+  const v = Number(value);
+  if (kind === 'm') return money(v * 1e6);
+  if (kind === 'bn') return money(v * 1e9);
+  if (kind === 'count') return count(v);
+  const n = dp === undefined ? String(value) : v.toFixed(dp);
+  if (kind === 'pluspct') return { pre: '+', n, u: '%' };
+  if (kind === 'rate') return { pre: '', n, u: ' per 100K' };
+  return { pre: '', n, u: '%' };
+}
+const fmtText = (o) => o.pre + commas(o.n) + o.u;
+
+// ---------- cards: [id, kind, change?, good direction, label, description, ring] ----------
+const BIG6 = [
+  ['cpi', 'pct', true, 'down', 'Inflation', 'How much more the same basket of shopping costs than a year ago (CPI). The Bank of England aims for 2%.', C.mag],
+  ['bank_rate', 'pct', true, '', 'Bank Rate', 'The Bank of England’s main interest rate. It steers mortgage, loan and savings rates.', C.ora],
+  ['gdp', 'pct', true, 'up', 'Economic growth', 'How much bigger the whole economy (GDP) got compared with the three months before.', C.lim],
+  ['aid', 'm', true, '', 'Foreign aid', 'Official Development Assistance for 2025: money for poorer countries, counted under international (OECD) rules.', C.cya,
+    (F) => ({ pct: +F.aid_gni.value / 0.7 * 100, text: F.aid_gni.value + '%', cap: 'of national income. The legal target is 0.7%.' })],
+  ['welfare', 'bn', false, '', 'Welfare spending', 'All benefits and the State Pension paid by the Department for Work and Pensions in Great Britain, April 2025 to March 2026.', C.vio,
+    (F) => { const p = +F.welfare.value / +F.spending.value * 100; return { pct: p, text: Math.round(p) + '%', cap: 'of all public spending' }; }],
+  ['tax_ytd', 'bn', true, '', 'Tax take this year', 'Tax and National Insurance collected by HMRC since the tax year began on 6 April.', C.yel,
+    (F) => { const p = +F.tax_year.value / +F.spending.value * 100; return { pct: p, text: Math.round(p) + '%', cap: 'of public spending was covered by HMRC tax last year' }; }],
+];
+const WATCH = [
+  ['unemployment', 'pct', true, 'down', 'Unemployment', 'Share of people who want a job and are looking, but don’t have one. The ONS warns the survey behind it is less reliable than usual.', (F) => ({ pct: +F.unemployment.value, cap: 'of the workforce' })],
+  ['core_cpi', 'pct', true, 'down', 'Core inflation', 'Inflation without energy, food, alcohol and tobacco, which jump around.'],
+  ['borrowing', 'bn', true, '', 'Borrowing in a month', 'The gap between what the government spent and what it took in, in one month.'],
+  ['debt', 'bn', true, '', 'National debt', 'Public sector net debt excluding public sector banks: what the public sector owes, minus its cash and easy-to-sell assets.'],
+  ['debt_gdp', 'pct', true, '', 'Debt vs the economy', 'The debt compared with the value of everything the UK produces in a year.', (F) => ({ pct: Math.min(100, +F.debt_gdp.value), cap: 'of a year’s GDP' })],
+  ['debt_interest', 'bn', true, '', 'Debt interest in a month', 'Interest central government paid on its debt in one month.'],
+  ['tax_year', 'bn', false, '', 'Tax take last year', 'Everything HMRC collected in the last full tax year.'],
+  ['spending', 'bn', false, '', 'All public spending', 'Everything the public sector spent in a year: day-to-day plus investment.'],
+  ['pension', 'bn', false, '', 'State Pension', 'The biggest single slice of the welfare bill.', (F) => ({ pct: +F.pension.value / +F.welfare.value * 100, cap: 'of welfare spending' })],
+  ['aid_refugee', 'm', true, '', 'Aid spent in the UK', 'Part of the aid total spent supporting refugees and asylum seekers in their first year in the UK.', (F) => ({ pct: +F.aid_refugee.value / +F.aid.value * 100, cap: 'of all aid' })],
+];
+const TODAY = [
+  ['flu_pos', 'pct', true, 'down', 'Flu', 'Share of flu tests in hospitals that came back positive.', (F) => ({ pct: +F.flu_pos.value, cap: 'tests positive' })],
+  ['flu_hosp', 'rate', true, 'down', 'Flu in hospital', 'New hospital admissions with flu per 100,000 people in a week.'],
+  ['covid_pos', 'pct', true, 'down', 'COVID-19', 'Share of COVID-19 tests in hospitals that came back positive.', (F) => ({ pct: +F.covid_pos.value, cap: 'tests positive' })],
+  ['covid_hosp', 'rate', true, 'down', 'COVID-19 in hospital', 'New hospital admissions with COVID-19 per 100,000 people in a week.'],
+  ['rsv_pos', 'pct', true, 'down', 'RSV', 'Share of RSV tests that came back positive. RSV mainly affects babies and older people.', (F) => ({ pct: +F.rsv_pos.value, cap: 'tests positive' })],
+  ['norovirus', 'pluspct', false, '', 'Norovirus', 'Winter vomiting bug lab reports, compared with the average of the last five seasons.'],
+  ['rotavirus', 'pluspct', false, '', 'Rotavirus', 'Stomach bug lab reports, compared with the average of the last five seasons. UKHSA says this is above expected levels.'],
+];
+const IMM = [
+  ['net_migration', 'count', true, '', 'Net migration', 'People moving to the UK for a year or more, minus people leaving for a year or more. Provisional and often revised.'],
+  ['immigration', 'count', true, '', 'Arriving long-term', 'People who moved to the UK for at least 12 months.'],
+  ['emigration', 'count', true, '', 'Leaving long-term', 'People who left the UK for at least 12 months, including British citizens.'],
+  ['asylum_claims', 'count', true, '', 'Asylum claims', 'People (main applicants and dependants) who claimed asylum in the UK over 12 months.'],
+  ['small_boats_year', 'count', true, '', 'Small boat arrivals', 'People detected arriving by small boat across the Channel over 12 months (official quarterly figure).'],
+  ['small_boats_ytd', 'count', false, '', 'Small boats in 2026 so far', 'Provisional daily Home Office count since 1 January, as reported by the PA news agency. The quarterly figures are the final ones.'],
+  ['asylum_hotels', 'count', true, '', 'Asylum seekers in hotels', 'People in asylum support housed temporarily in hotels at the end of the period.'],
+];
+const CRIME = [
+  ['fno_prison', 'count', false, '', 'Foreign nationals in prison', 'Prisoners in England and Wales who are not British nationals: on remand, sentenced, or held under immigration powers. Down 5% on a year earlier.'],
+  ['fno_share', 'pct', true, '', 'Share of all prisoners', 'Foreign nationals as a share of everyone in prison in England and Wales.', (F) => ({ pct: +F.fno_share.value, cap: 'of prisoners' })],
+  ['prison_total', 'count', true, '', 'Total prison population', 'Everyone in prison in England and Wales.'],
+];
+
+// quick links: [key, label, target id, colour]
+const LINKS = [
+  ['cpi', 'Inflation', 'card-cpi', C.mag], ['bank_rate', 'Bank Rate', 'card-bank_rate', C.ora], ['gdp', 'Growth', 'card-gdp', C.lim],
+  ['aid', 'Foreign aid', 'card-aid', C.cya], ['welfare', 'Welfare', 'card-welfare', C.vio], ['tax_ytd', 'Tax', 'card-tax_ytd', C.yel],
+  ['unemployment', 'Jobs', 'card-unemployment', SEC.watch], ['debt', 'Debt', 'card-debt', SEC.watch], ['imm', 'Immigration', 'immigration', SEC.imm],
+  ['crime', 'Prisons', 'crime', SEC.crime], ['today', 'Health and weather', 'today', SEC.today], ['money', 'Where the money goes', 'money', SEC.money],
+];
+const store = { get() { try { return JSON.parse(localStorage.getItem('trustat-clicks') || '{}'); } catch (e) { return {}; } },
+  bump(k) { try { const c = store.get(); c[k] = (c[k] || 0) + 1; localStorage.setItem('trustat-clicks', JSON.stringify(c)); } catch (e) {} } };
+const linkKeyFor = (cardId) => { const l = LINKS.find((x) => x[2] === 'card-' + cardId); return l ? l[0] : null; };
+
+let DATA = null;
 
 // ---------- slot machine ----------
-function slot(fig, text, delayBase) {
-  fig.textContent = '';
+function slot(target, text, delayBase) {
+  target.textContent = '';
   const box = el('span', 'slot'); box.setAttribute('aria-hidden', 'true');
-  const strips = [];
-  let di = 0;
+  const strips = []; let di = 0;
   for (const ch of text) {
     if (/\d/.test(ch)) {
-      const reel = el('span', 'reel'); const strip = el('span', 'strip');
-      const target = +ch, spins = 2 + di;
-      const seq = [];
-      for (let s = 0; s < spins; s++) for (let d = 0; d < 10; d++) seq.push(d);
-      for (let d = 0; d <= target; d++) seq.push(d);
+      const reel = el('span', 'reel'), strip = el('span', 'strip'), t = +ch, seq = [];
+      for (let s = 0; s < 2 + di; s++) for (let d = 0; d < 10; d++) seq.push(d);
+      for (let d = 0; d <= t; d++) seq.push(d);
       seq.forEach((d) => strip.appendChild(el('span', '', String(d))));
-      reel.appendChild(strip); box.appendChild(reel);
-      strips.push({ strip, steps: seq.length - 1, i: di }); di++;
+      reel.appendChild(strip); box.appendChild(reel); strips.push({ strip, steps: seq.length - 1, i: di++ });
     } else box.appendChild(el('span', '', ch));
   }
-  fig.appendChild(box);
+  target.appendChild(box);
   if (RM) { strips.forEach((s) => { s.strip.style.transform = `translateY(-${s.steps * 1.02}em)`; }); return; }
   strips.forEach((s) => { s.strip.style.transition = 'none'; s.strip.style.transform = 'translateY(0)'; });
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    strips.forEach((s) => {
-      const dur = 1100 + s.i * 180;
-      s.strip.style.transition = `transform ${dur}ms cubic-bezier(.15,.85,.25,1.08) ${delayBase}ms`;
-      s.strip.style.transform = `translateY(-${s.steps * 1.02}em)`;
-    });
-  }));
+  requestAnimationFrame(() => requestAnimationFrame(() => strips.forEach((s) => {
+    s.strip.style.transition = `transform ${1100 + s.i * 180}ms cubic-bezier(.15,.85,.25,1.08) ${delayBase}ms`;
+    s.strip.style.transform = `translateY(-${s.steps * 1.02}em)`;
+  })));
 }
 
 // ---------- rings and pies ----------
 function ring(pct, color, size, text) {
+  const w = Math.max(4, Math.round(size * 0.075)), r = size / 2 - w / 2 - 1, c = 2 * Math.PI * r;
   const s = sv('svg', { width: size, height: size, viewBox: `0 0 ${size} ${size}`, class: 'ring', role: 'img', 'aria-label': text });
-  const r = size / 2 - 6, c = 2 * Math.PI * r, w = Math.max(7, size * 0.13);
   s.appendChild(sv('circle', { cx: size / 2, cy: size / 2, r, fill: 'none', stroke: 'rgba(255,255,255,.12)', 'stroke-width': w }));
-  const arc = sv('circle', { cx: size / 2, cy: size / 2, r, fill: 'none', stroke: color, 'stroke-width': w, 'stroke-linecap': 'round',
-    'stroke-dasharray': `${c} ${c}`, 'stroke-dashoffset': c, transform: `rotate(-90 ${size / 2} ${size / 2})` });
+  const arc = sv('circle', { cx: size / 2, cy: size / 2, r, fill: 'none', stroke: color, 'stroke-width': w, 'stroke-linecap': 'round', 'stroke-dasharray': `${c} ${c}`, 'stroke-dashoffset': c, transform: `rotate(-90 ${size / 2} ${size / 2})` });
   s.appendChild(arc);
-  const t = sv('text', { x: size / 2, y: size / 2, 'text-anchor': 'middle', 'dominant-baseline': 'central', 'font-size': Math.round(size * (text.length > 4 ? 0.2 : text.length > 3 ? 0.23 : 0.27)) }); t.textContent = text;
-  s.appendChild(t);
+  const t = sv('text', { x: size / 2, y: size / 2, 'text-anchor': 'middle', 'dominant-baseline': 'central', 'font-size': Math.round(size * (text.length > 4 ? 0.19 : 0.23)) });
+  t.textContent = text; s.appendChild(t);
   const target = c * (1 - Math.max(0, Math.min(100, pct)) / 100);
   if (RM) arc.setAttribute('stroke-dashoffset', target);
   else { arc.style.transition = 'stroke-dashoffset 1.3s cubic-bezier(.2,.8,.2,1)'; requestAnimationFrame(() => requestAnimationFrame(() => arc.setAttribute('stroke-dashoffset', target))); }
@@ -290,28 +386,29 @@ function ring(pct, color, size, text) {
 }
 function tipFor(host) { const t = el('div', 'tip'); t.hidden = true; host.appendChild(t);
   return { show(text, ev) { const b = host.getBoundingClientRect(); t.textContent = text; t.hidden = false; const x = ev.clientX - b.left, y = ev.clientY - b.top; t.style.left = Math.max(0, Math.min(b.width - t.offsetWidth, x - t.offsetWidth / 2)) + 'px'; t.style.top = Math.max(0, y - t.offsetHeight - 12) + 'px'; }, hide() { t.hidden = true; } }; }
-function pieCard(host, title, rows, unit, note) {
-  const card = el('div', 'piecard'); card.appendChild(el('h3', '', title));
+// rows: [{label, value, text}] ; base colour for shades
+function pieCard(host, title, rows, base, note) {
+  const card = el('div', 'piecard'); card.style.setProperty('--ac', base); card.appendChild(el('h3', '', title));
   const body = el('div', 'piebody'); card.appendChild(body);
-  const size = 150, R = size / 2, r0 = R * 0.56, total = rows.reduce((a, b) => a + b.value, 0);
-  const cols = rows.map((r, i) => /^(Everything|All other|British)/.test(r.label) ? C.muted : PAL[i % PAL.length]);
-  const s = sv('svg', { width: size, height: size, viewBox: `0 0 ${size} ${size}`, role: 'img', 'aria-label': title + ': ' + rows.map((r) => `${r.label} ${num(r.value)}${unit}`).join(', ') });
+  const size = 156, R = size / 2, r0 = R - 16, total = rows.reduce((a, b) => a + b.value, 0);
+  const pal = shades(base); let k = 0;
+  const cols = rows.map((r) => /^(Everything|All other|British)/.test(r.label) ? OTHER : pal[k++ % pal.length]);
+  const s = sv('svg', { width: size, height: size, viewBox: `0 0 ${size} ${size}`, role: 'img', 'aria-label': title + ': ' + rows.map((r) => `${r.label} ${r.text}`).join(', ') });
   const tip = tipFor(card);
-  let a0 = -Math.PI / 2; const gap = rows.length > 1 ? 0.025 : 0;
+  let a0 = -Math.PI / 2; const gap = rows.length > 1 ? 0.03 : 0;
   rows.forEach((r, i) => {
-    const a1 = a0 + (r.value / total) * Math.PI * 2;
-    const s0 = a0 + gap / 2, s1 = Math.max(s0 + 0.001, a1 - gap / 2), large = s1 - s0 > Math.PI ? 1 : 0;
+    const a1 = a0 + (r.value / total) * Math.PI * 2, s0 = a0 + gap / 2, s1 = Math.max(s0 + 0.001, a1 - gap / 2), large = s1 - s0 > Math.PI ? 1 : 0;
     const p = (ang, rad) => [R + rad * Math.cos(ang), R + rad * Math.sin(ang)];
-    const [x0, y0] = p(s0, R - 2), [x1, y1] = p(s1, R - 2), [x2, y2] = p(s1, r0), [x3, y3] = p(s0, r0);
-    const path = sv('path', { d: `M${x0},${y0} A${R - 2},${R - 2} 0 ${large} 1 ${x1},${y1} L${x2},${y2} A${r0},${r0} 0 ${large} 0 ${x3},${y3} Z`, fill: cols[i] });
-    path.addEventListener('pointermove', (ev) => tip.show(`${r.label}: ${num(r.value)}${unit}`, ev)); path.addEventListener('pointerleave', () => tip.hide());
+    const [x0, y0] = p(s0, R - 1), [x1, y1] = p(s1, R - 1), [x2, y2] = p(s1, r0), [x3, y3] = p(s0, r0);
+    const path = sv('path', { d: `M${x0},${y0} A${R - 1},${R - 1} 0 ${large} 1 ${x1},${y1} L${x2},${y2} A${r0},${r0} 0 ${large} 0 ${x3},${y3} Z`, fill: cols[i] });
+    path.addEventListener('pointermove', (ev) => tip.show(`${r.label}: ${r.text}`, ev)); path.addEventListener('pointerleave', () => tip.hide());
     if (!RM) { path.style.opacity = 0; path.style.transition = `opacity .5s ease ${i * 90}ms`; requestAnimationFrame(() => requestAnimationFrame(() => { path.style.opacity = 1; })); }
     s.appendChild(path); a0 = a1;
   });
-  const t = sv('text', { x: R, y: R, 'text-anchor': 'middle', 'dominant-baseline': 'central', 'font-size': 26, 'font-weight': 800, fill: '#fff', 'font-family': 'inherit' }); t.textContent = num(rows[0].value) + unit; s.appendChild(t);
+  const t = sv('text', { x: R, y: R, 'text-anchor': 'middle', 'dominant-baseline': 'central', 'font-size': rows[0].text.length > 5 ? 20 : 26, 'font-weight': 500, fill: '#fff', 'font-family': 'inherit' }); t.textContent = rows[0].text; s.appendChild(t);
   body.appendChild(s);
   const ul = el('ul', 'legend');
-  rows.forEach((r, i) => { const li = el('li'); const dot = el('i'); dot.style.background = cols[i]; li.append(dot, el('b', '', num(r.value) + unit), el('span', '', r.label)); ul.appendChild(li); });
+  rows.forEach((r, i) => { const li = el('li'); const dot = el('i'); dot.style.background = cols[i]; li.append(dot, el('b', '', r.text), el('span', '', r.label)); ul.appendChild(li); });
   body.appendChild(ul);
   if (note) card.appendChild(el('p', 'note', note));
   host.appendChild(card);
@@ -322,26 +419,32 @@ function change(f) {
   if (f.prev_value === null || f.prev_value === undefined || f.prev_value === '') return null;
   const p = Math.max(places(f.value), places(f.prev_value));
   const d = Number((Number(f.value) - Number(f.prev_value)).toFixed(p));
-  return { abs: Math.abs(d).toFixed(p), dir: d > 0 ? 'up' : d < 0 ? 'down' : 'flat' };
+  return { abs: Math.abs(d), p, dir: d > 0 ? 'up' : d < 0 ? 'down' : 'flat' };
 }
-function buildCard(def, tier, F, i) {
-  const [id, pre, unit, cunit, good, label, desc, color, ringFn] = def;
+function changeText(ch, kind) {
+  if (kind === 'pct' || kind === 'pluspct') return ch.abs.toFixed(ch.p) + ' pts';
+  if (kind === 'rate') return ch.abs.toFixed(ch.p) + ' per 100K';
+  return fmtText(fmt(ch.abs, kind));
+}
+function buildCard(def, tier, F, i, color) {
+  const [id, kind, hasChange, good, label, desc, ringFn] = def;
   const f = F[id]; if (!f) return null;
   const card = el('article', 'card ' + tier); card.id = 'card-' + id; card.style.setProperty('--ac', color);
   card.appendChild(el('h3', '', label));
-  const fig = el('p', 'fig'); const figText = num(f.value);
-  fig.setAttribute('aria-label', `${pre}${figText}${unit}`);
-  const val = el('span'); fig.append(pre ? document.createTextNode(pre) : '', val, el('span', 'u', unit));
-  fig.style.setProperty('--len', (((pre + figText).length + unit.trim().length * 0.5) * 0.62 + 0.3).toFixed(2));
+  const o = fmt(f.value, kind), figText = commas(o.n);
+  const fig = el('p', 'fig'); fig.setAttribute('aria-label', o.pre + figText + o.u);
+  const val = el('span');
+  if (o.pre) fig.appendChild(el('span', 'pre', o.pre));
+  fig.append(val, el('span', 'u', o.u));
+  fig.style.setProperty('--len', (((o.pre + figText).length + o.u.trim().length * 0.55) * 0.6 + 0.3).toFixed(2));
   card.appendChild(fig);
-  const ch = cunit !== null ? change(f) : null;
+  const ch = hasChange ? change(f) : null;
   if (ch) {
-    const p = el('p', 'chg'); if (good && ch.dir !== 'flat') p.classList.add(ch.dir === good ? 'good' : 'bad');
-    if (ch.dir === 'flat') { p.append(el('span', 'arr', '● '), document.createTextNode('No change '), el('span', 'vs', 'vs ' + (f.prev_label || 'before'))); }
+    const p = el('p', 'chg');
+    if (ch.dir === 'flat') { p.classList.add('flat'); p.append(el('span', 'arr', '● '), 'No change ', el('span', 'vs', 'vs ' + (f.prev_label || 'before'))); }
     else {
-      const arr = el('span', 'arr', ch.dir === 'up' ? '▲ ' : '▼ ');
-      const amt = (pre === '£' ? '£' : '') + num(ch.abs) + (cunit === 'pts' ? ' pts' : cunit === 'bn' ? 'bn' : cunit === 'm' ? 'm' : cunit || '');
-      p.append(arr, document.createTextNode(amt + ' '), el('span', 'vs', 'vs ' + (f.prev_label || 'before')));
+      if (good) p.classList.add(ch.dir === good ? 'good' : 'bad');
+      p.append(el('span', 'arr', ch.dir === 'up' ? '▲ ' : '▼ '), changeText(ch, kind) + ' ', el('span', 'vs', 'vs ' + (f.prev_label || 'before')));
     }
     card.appendChild(p);
   }
@@ -351,22 +454,21 @@ function buildCard(def, tier, F, i) {
       const rv = ringFn(F);
       if (isFinite(rv.pct)) {
         const rl = el('div', 'ringline');
-        const txt = rv.text || (num((Math.round(rv.pct * 10) / 10).toString()) + '%');
-        rl.appendChild(ring(rv.pct, color, tier === 't1' ? 58 : 50, txt));
+        rl.appendChild(ring(rv.pct, color, tier === 't1' ? 84 : 58, rv.text || ((Math.round(rv.pct * 10) / 10) + '%')));
         if (rv.cap) rl.appendChild(el('span', 'ringcap', rv.cap));
         card.appendChild(rl);
       }
     } catch (e) { /* missing inputs: no ring */ }
   }
-  const st = el('p', 'stamp'); if (f.live) st.appendChild(el('span', 'lv'));
-  st.appendChild(document.createTextNode('Latest data as of ' + date(f.published)));
-  if (f.live) st.title = 'Fetched live when you opened the page';
+  const st = el('p', 'stamp'); if (f.live) { st.appendChild(el('span', 'lv')); st.title = 'Fetched live when you opened the page'; }
+  st.appendChild(document.createTextNode('Latest data: ' + date(f.published)));
   card.appendChild(st);
   const det = el('details', 'what'); det.appendChild(el('summary', '', 'What is this?'));
   det.appendChild(el('p', '', desc));
-  const p2 = el('p'); p2.appendChild(document.createTextNode('Next update: ' + date(f.next_update) + ' · '));
+  const p2 = el('p'); p2.append('Next update: ' + date(f.next_update) + ' · ');
   const a = el('a', '', 'Source: ' + f.source + ' ↗'); a.href = f.url; a.target = '_blank'; a.rel = 'noopener'; p2.appendChild(a); det.appendChild(p2);
   card.appendChild(det);
+  const lk = linkKeyFor(id); if (lk) card.addEventListener('click', () => store.bump(lk));
   if (tier === 't1') { card._roll = () => slot(val, figText, i * 120); fig.addEventListener('click', () => card._roll()); fig.title = 'Tap to spin again'; }
   else val.textContent = figText;
   return card;
@@ -375,9 +477,9 @@ function buildCard(def, tier, F, i) {
 // ---------- charts ----------
 function bars(host, rows, o) {
   host.textContent = '';
-  const W = Math.max(260, host.clientWidth || 320), H = 210, m = { t: 24, r: 4, b: 26, l: 4 };
+  const W = Math.max(240, host.clientWidth || 320), H = 210, m = { t: 24, r: 4, b: 26, l: 4 };
   const s = sv('svg', { width: '100%', viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': o.aria });
-  const max = Math.max(...rows.map(o.val)) * 1.12 || 1, bw = (W - m.l - m.r) / rows.length, pad = bw * 0.2;
+  const max = Math.max(...rows.map(o.val)) * 1.12 || 1, bw = (W - m.l - m.r) / rows.length, pad = bw * 0.22;
   const y = (v) => H - m.b - (v / max) * (H - m.t - m.b);
   const tip = tipFor(host);
   rows.forEach((r, i) => {
@@ -385,14 +487,14 @@ function bars(host, rows, o) {
     const rect = sv('rect', { x, y: y(v), width: w, height: H - m.b - y(v), rx: 6, fill: o.color, opacity: o.dim && o.dim(r) ? 0.45 : 1 });
     rect.addEventListener('pointermove', (ev) => tip.show(o.tip(r), ev)); rect.addEventListener('pointerleave', () => tip.hide());
     s.appendChild(rect);
-    const vl = sv('text', { x: x + w / 2, y: y(v) - 7, 'text-anchor': 'middle', class: 'vl' }); if (w < 46) vl.setAttribute('style', 'font-size:9.5px'); vl.textContent = o.label(r); s.appendChild(vl);
+    const vl = sv('text', { x: x + w / 2, y: y(v) - 7, 'text-anchor': 'middle', class: 'vl' }); if (w < 44) vl.setAttribute('style', 'font-size:10px'); vl.textContent = o.label(r); s.appendChild(vl);
     const xl = sv('text', { x: x + w / 2, y: H - 8, 'text-anchor': 'middle' }); xl.textContent = o.xl(r); s.appendChild(xl);
   });
   host.appendChild(s);
 }
-function rateChart(host, pts) {
+function rateChart(host, pts, color) {
   host.textContent = '';
-  const W = Math.max(260, host.clientWidth || 320), H = 210, m = { t: 26, r: 16, b: 26, l: 44 };
+  const W = Math.max(240, host.clientWidth || 320), H = 210, m = { t: 26, r: 16, b: 26, l: 44 };
   const t0 = new Date(pts[0].date + 'T00:00:00Z').getTime(), t1 = Date.now();
   const lo = Math.min(...pts.map((p) => p.rate)) - 0.25, hi = Math.max(...pts.map((p) => p.rate)) + 0.25;
   const x = (t) => m.l + (t - t0) / (t1 - t0) * (W - m.l - m.r), y = (v) => H - m.b - (v - lo) / (hi - lo) * (H - m.t - m.b);
@@ -404,11 +506,11 @@ function rateChart(host, pts) {
   let d = '';
   pts.forEach((p, i) => { const px = x(new Date(p.date + 'T00:00:00Z').getTime()), py = y(p.rate); d += i === 0 ? `M${px},${py}` : `H${px}V${py}`; });
   d += `H${x(t1)}`;
-  s.appendChild(sv('path', { d, fill: 'none', stroke: C.ora, 'stroke-width': 4, 'stroke-linejoin': 'round' }));
+  s.appendChild(sv('path', { d, fill: 'none', stroke: color, 'stroke-width': 3, 'stroke-linejoin': 'round' }));
   const tip = tipFor(host);
   pts.forEach((p) => {
     const px = x(new Date(p.date + 'T00:00:00Z').getTime()), py = y(p.rate);
-    const c = sv('circle', { cx: px, cy: py, r: 7, fill: C.ora }); c.addEventListener('pointermove', (ev) => tip.show(`${date(p.date)}: set to ${p.rate.toFixed(2)}%`, ev)); c.addEventListener('pointerleave', () => tip.hide()); s.appendChild(c);
+    const c = sv('circle', { cx: px, cy: py, r: 6, fill: color }); c.addEventListener('pointermove', (ev) => tip.show(`${date(p.date)}: set to ${p.rate.toFixed(2)}%`, ev)); c.addEventListener('pointerleave', () => tip.hide()); s.appendChild(c);
     const tl = sv('text', { x: Math.min(W - m.r - 18, Math.max(m.l + 18, px)), y: py - 13, 'text-anchor': 'middle', class: 'vl' }); tl.textContent = p.rate.toFixed(2) + '%'; s.appendChild(tl);
   });
   const ticks = Math.max(2, Math.min(5, Math.floor(W / 110)));
@@ -416,74 +518,108 @@ function rateChart(host, pts) {
   host.appendChild(s);
 }
 
+// ---------- quick links ----------
+function renderQuick() {
+  const nav = $('#quick'); nav.textContent = '';
+  const clicks = store.get();
+  const sorted = LINKS.map((l, i) => ({ l, i, n: clicks[l[0]] || 0 })).sort((a, b) => b.n - a.n || a.i - b.i).slice(0, 8);
+  sorted.forEach(({ l }) => {
+    const b = el('button', '', l[1]); b.type = 'button'; b.style.setProperty('--ac', l[3]);
+    b.addEventListener('click', () => {
+      store.bump(l[0]);
+      const t = document.getElementById(l[2]); if (!t) return;
+      t.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'center' });
+      const card = t.classList.contains('card') ? t : null;
+      if (card) { card.classList.add('flash'); setTimeout(() => card.classList.remove('flash'), 1400); if (card._roll) setTimeout(() => card._roll(), 400); }
+      setTimeout(renderQuick, 1600);
+    });
+    nav.appendChild(b);
+  });
+}
+
 // ---------- render ----------
 function render() {
   const F = DATA.figures;
-  const grids = { big6: '#g-big6', watch: '#g-watch', today: '#g-today', imm: '#g-imm', crime: '#g-crime' };
+  document.querySelectorAll('#watch, #immigration, #crime, #money, #time, #today').forEach((s) => {
+    const key = { watch: 'watch', immigration: 'imm', crime: 'crime', money: 'money', time: 'time', today: 'today' }[s.id];
+    s.style.setProperty('--sc', SEC[key]);
+  });
   const t1cards = [];
-  for (const k in grids) {
-    const g = $(grids[k]); g.textContent = '';
-    CARDS[k].forEach((def, i) => { const c = buildCard(def, k === 'big6' ? 't1' : 't2', F, i); if (c) { g.appendChild(c); if (k === 'big6') t1cards.push(c); } });
-  }
-  // slot machine: roll when the big six come into view
+  const fill = (sel, defs, tier, colorFor) => { const g = $(sel); g.textContent = ''; defs.forEach((d, i) => { const c = buildCard(d, tier, F, i, colorFor(d, i)); if (c) { g.appendChild(c); if (tier === 't1') t1cards.push(c); } }); };
+  fill('#g-big6', BIG6.map((d) => [d[0], d[1], d[2], d[3], d[4], d[5], d[7]]), 't1', (d, i) => BIG6[i][6]);
+  fill('#g-watch', WATCH, 't2', () => SEC.watch);
+  fill('#g-today', TODAY, 't2', () => SEC.today);
+  fill('#g-imm', IMM, 't2', () => SEC.imm);
+  fill('#g-crime', CRIME, 't2', () => SEC.crime);
   if ('IntersectionObserver' in window && !RM) {
-    const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { t1cards.forEach((c) => c._roll()); io.disconnect(); } }, { threshold: 0.3 });
+    const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { t1cards.forEach((c) => c._roll()); io.disconnect(); } }, { threshold: 0.25 });
     io.observe($('#g-big6'));
   } else t1cards.forEach((c) => c._roll());
 
   const cpiCh = change(F.cpi);
   const lede = $('#lede'); lede.textContent = '';
-  lede.append('Prices are rising ', el('b', '', num(F.cpi.value) + '%'), ' a year, ' + (cpiCh ? (cpiCh.dir === 'up' ? 'faster than' : cpiCh.dir === 'down' ? 'slower than' : 'the same as') : '') + ' last month. Bank Rate is ',
-    el('b', '', num(F.bank_rate.value) + '%'), ', and the economy grew ', el('b', '', num(F.gdp.value) + '%'), ' last quarter. Official sources only, every number dated.');
+  lede.append('Prices are rising ', el('b', '', F.cpi.value + '%'), ' a year, ' + (cpiCh ? (cpiCh.dir === 'up' ? 'faster than' : cpiCh.dir === 'down' ? 'slower than' : 'the same as') : '') + ' last month. Bank Rate is ',
+    el('b', '', F.bank_rate.value + '%'), ', and the economy grew ', el('b', '', F.gdp.value + '%'), ' last quarter. Every number is dated and linked to its source.');
   const dates = Object.values(F).map((f) => f.published).filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d || '')).sort();
-  $('#fresh').innerHTML = ''; $('#fresh').append('Freshest figure: ', el('b', '', date(dates[dates.length - 1])));
+  const fr = $('#fresh'); fr.textContent = ''; fr.append('Freshest figure: ', el('b', '', date(dates[dates.length - 1])));
 
   const facts = $('#facts'); facts.textContent = '';
-  const fact = (big, text) => { const p = el('p', 'fact'); p.append(el('b', '', big), text); facts.appendChild(p); };
-  fact('£' + num(Math.round(+F.tax_year.value * 1000 / 365)) + 'm', 'tax collected by HMRC every day last tax year');
-  fact('£' + num(Math.round(+F.borrowing.value * 1000 / 30)) + 'm', 'borrowed per day in ' + F.borrowing.period);
-  fact('£' + num(Math.round(+F.debt_interest.value * 1000 / 30)) + 'm', 'paid in debt interest per day in ' + F.debt_interest.period);
+  const fact = (big, text) => { const p = el('p', 'fact'); p.style.setProperty('--ac', SEC.watch); p.append(el('b', '', big), text); facts.appendChild(p); };
+  fact(fmtText(money(+F.tax_year.value * 1e9 / 365)), 'tax collected by HMRC every day last tax year');
+  fact(fmtText(money(+F.borrowing.value * 1e9 / 30)), 'borrowed per day in ' + F.borrowing.period);
+  fact(fmtText(money(+F.debt_interest.value * 1e9 / 30)), 'paid in debt interest per day in ' + F.debt_interest.period);
 
   const talks = $('#talks'); talks.textContent = '';
-  DATA.talking.forEach((t, i) => {
-    const a = el('article', 'talk'); a.style.setProperty('--ac', i % 2 ? C.cya : C.lim);
+  DATA.talking.forEach((t) => {
+    const a = el('article', 'talk'); a.style.setProperty('--ac', SEC.today);
     a.append(el('p', 'tag', t.topic), el('h3', '', t.headline), el('p', '', t.detail));
-    const st = el('p', 'stamp', 'Latest data as of ' + date(t.published)); a.appendChild(st);
-    const src = el('p'); const l = el('a', '', 'Source: ' + t.source + ' ↗'); l.href = t.url; l.target = '_blank'; l.rel = 'noopener'; src.appendChild(l); a.appendChild(src);
+    const st = el('p', 'stamp', 'Latest data: ' + date(t.published)); st.style.setProperty('--ac', SEC.today); a.appendChild(st);
+    const src = el('p', 'src'); const l = el('a', '', 'Source: ' + t.source + ' ↗'); l.href = t.url; l.target = '_blank'; l.rel = 'noopener'; src.appendChild(l); a.appendChild(src);
     talks.appendChild(a);
   });
 
   const r1 = (v) => Math.round(v * 10) / 10;
+  const pctRows = (rows) => rows.map((r) => ({ label: r.label, value: r.value, text: commas(String(r.value)) + '%' }));
   const pImm = $('#p-imm'); pImm.textContent = '';
-  pieCard(pImm, 'Arriving vs leaving, ' + F.immigration.period, [{ label: 'Arriving long-term', value: +F.immigration.value }, { label: 'Leaving long-term', value: +F.emigration.value }], '', 'ONS. The gap between the two is net migration.');
-  pieCard(pImm, 'How asylum seekers arrived', DATA.pies.asylum_route, '%', 'Year to June 2026. Home Office data, via the House of Commons Library.');
+  pieCard(pImm, 'Arriving vs leaving, ' + F.immigration.period, [
+    { label: 'Arriving long-term', value: +F.immigration.value, text: fmtText(count(+F.immigration.value)) },
+    { label: 'Leaving long-term', value: +F.emigration.value, text: fmtText(count(+F.emigration.value)) }], SEC.imm, 'ONS. The gap between the two is net migration.');
+  pieCard(pImm, 'How asylum seekers arrived', pctRows(DATA.pies.asylum_route), SEC.imm, 'Year to June 2026. Home Office data, via the House of Commons Library.');
   const pCrime = $('#p-crime'); pCrime.textContent = '';
   const fs = +F.fno_share.value;
-  pieCard(pCrime, 'Who is in prison, ' + F.fno_share.period, [{ label: 'Foreign nationals', value: fs }, { label: 'British or not recorded', value: r1(100 - fs) }], '%', 'Ministry of Justice.');
-  pieCard(pCrime, 'Foreign national prisoners by nationality', DATA.pies.fno_nat, '%', 'Share of foreign nationals in prison, 30 September 2026. Ministry of Justice.');
+  pieCard(pCrime, 'Who is in prison, ' + F.fno_share.period, pctRows([{ label: 'Foreign nationals', value: fs }, { label: 'British or not recorded', value: r1(100 - fs) }]), SEC.crime, 'Ministry of Justice.');
+  pieCard(pCrime, 'Foreign national prisoners by nationality', pctRows(DATA.pies.fno_nat), SEC.crime, 'Share of foreign nationals in prison, 30 September 2026. Ministry of Justice.');
   const pMoney = $('#p-money'); pMoney.textContent = '';
   const S = +F.spending.value, pen = r1(+F.pension.value / S * 100), oth = r1((+F.welfare.value - +F.pension.value) / S * 100), aid = r1(+F.aid.value / (S * 1000) * 100);
-  pieCard(pMoney, 'Every £1 of public spending, 2025-26', [{ label: 'State Pension', value: pen }, { label: 'Other benefits', value: oth }, { label: 'Foreign aid', value: aid }, { label: 'Everything else', value: r1(100 - pen - oth - aid) }], 'p', 'Aid is for calendar 2025; spending and welfare are April to March. Welfare covers Great Britain.');
-  pieCard(pMoney, 'Where foreign aid went, 2025', [{ label: 'Spent overseas', value: +F.aid.value - +F.aid_refugee.value }, { label: 'Refugee costs in the UK', value: +F.aid_refugee.value }], '', '£ million. FCDO final figures.');
-  pieCard(pMoney, 'Tax take vs spending', [{ label: 'Covered by HMRC tax', value: Math.round(+F.tax_year.value) }, { label: 'Everything else (other income and borrowing)', value: Math.round(S - +F.tax_year.value) }], '', '£ billion, 2025-26. HMRC cash receipts vs total public spending.');
+  const pence = (label, v) => ({ label, value: v, text: v + 'p' });
+  pieCard(pMoney, 'Every £1 of public spending, 2025-26', [pence('State Pension', pen), pence('Other benefits', oth), pence('Foreign aid', aid), pence('Everything else', r1(100 - pen - oth - aid))], SEC.money,
+    'Aid is for calendar 2025; spending and welfare are April to March. Welfare covers Great Britain.');
+  const overseas = +F.aid.value - +F.aid_refugee.value;
+  pieCard(pMoney, 'Where foreign aid went, 2025', [
+    { label: 'Spent overseas', value: overseas, text: fmtText(money(overseas * 1e6)) },
+    { label: 'Refugee costs in the UK', value: +F.aid_refugee.value, text: fmtText(money(+F.aid_refugee.value * 1e6)) }], SEC.money, 'FCDO final figures.');
+  pieCard(pMoney, 'Tax take vs spending, 2025-26', [
+    { label: 'Covered by HMRC tax', value: +F.tax_year.value, text: fmtText(money(+F.tax_year.value * 1e9)) },
+    { label: 'Everything else (other income and borrowing)', value: S - +F.tax_year.value, text: fmtText(money((S - +F.tax_year.value) * 1e9)) }], SEC.money, 'HMRC cash receipts vs total public spending.');
 
-  // charts
+  document.querySelectorAll('.chart').forEach((c) => c.style.setProperty('--ac', SEC.time));
   const ys = DATA.aid_history.map((r) => r.year);
   const fromSel = $('#aidfrom'), toSel = $('#aidto');
   [fromSel, toSel].forEach((sel) => { sel.textContent = ''; ys.forEach((y) => sel.appendChild(new Option(y, y))); });
   fromSel.value = ys[0]; toSel.value = ys[ys.length - 1];
   const drawAid = () => { let a = +fromSel.value, b = +toSel.value; if (a > b) { [a, b] = [b, a]; fromSel.value = a; toSel.value = b; }
-    bars($('#aidchart'), DATA.aid_history.filter((r) => r.year >= a && r.year <= b), { val: (r) => r.value, color: C.cya, label: (r) => '£' + num(r.value) + 'm', xl: (r) => String(r.year), tip: (r) => `${r.year}: £${num(r.value)}m (${r.status})`, dim: (r) => r.status !== 'final', aria: `UK foreign aid by year, ${a} to ${b}, £ million` }); };
+    bars($('#aidchart'), DATA.aid_history.filter((r) => r.year >= a && r.year <= b), { val: (r) => r.value, color: C.cya, label: (r) => fmtText(money(r.value * 1e6)), xl: (r) => String(r.year), tip: (r) => `${r.year}: ${fmtText(money(r.value * 1e6))} (${r.status})`, dim: (r) => r.status !== 'final', aria: `UK foreign aid by year, ${a} to ${b}` }); };
   fromSel.onchange = toSel.onchange = drawAid;
-  const drawRest = () => { drawAid(); rateChart($('#ratechart'), DATA.bank_rate_history);
+  const drawCharts = () => { drawAid(); rateChart($('#ratechart'), DATA.bank_rate_history, C.ora);
     bars($('#gdpchart'), DATA.gdp_quarters, { val: (r) => r.value, color: C.lim, label: (r) => r.value + '%', xl: (r) => r.quarter.replace(' 2026', ''), tip: (r) => `${r.quarter}: grew ${r.value}%`, aria: 'UK GDP growth each quarter of 2026' }); };
-  drawRest();
-  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(drawRest, 150); });
+  drawCharts();
+  let rt; window.onresize = () => { clearTimeout(rt); rt = setTimeout(drawCharts, 150); };
 
   const NEXT = ['flu_pos', 'borrowing', 'tax_ytd', 'net_migration', 'asylum_claims', 'unemployment', 'cpi', 'bank_rate', 'gdp', 'fno_prison', 'aid', 'welfare'];
   const key = (f) => /^\d{4}-\d{2}-\d{2}$/.test(f.next_update || '') ? f.next_update : '9999';
   const tb = $('#upcoming'); tb.textContent = '';
   NEXT.map((id) => F[id]).filter(Boolean).sort((a, b) => key(a).localeCompare(key(b))).forEach((f) => { const tr = el('tr'); tr.append(el('td', '', f.label), el('td', '', date(f.next_update)), el('td', '', f.source)); tb.appendChild(tr); });
+  renderQuick();
 }
 
 // ---------- data: saved snapshot, then live overrides ----------
@@ -505,10 +641,10 @@ async function boot() {
     const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 8000);
     const res = await fetch('api/live', { signal: ctl.signal }); clearTimeout(to);
     if (!res.ok) throw new Error(res.status);
-    const live = await res.json(); const n = merge(live);
-    pill.classList.add('live'); pill.innerHTML = '<span class="dot"></span>'; pill.append(n ? `${n} ${n === 1 ? 'figure' : 'figures'} checked live just now` : 'Live check done: saved figures are current');
+    const n = merge(await res.json());
+    pill.classList.add('live'); pill.textContent = ''; pill.append(el('span', 'dot'), n ? `${n} ${n === 1 ? 'figure' : 'figures'} checked live just now` : 'Live check done: saved figures are current');
     if (n) render();
-  } catch (e) { pill.innerHTML = '<span class="dot"></span>'; pill.append('Showing saved figures (snapshot ' + date(DATA.snapshot_date) + ')'); }
+  } catch (e) { pill.textContent = ''; pill.append(el('span', 'dot'), 'Showing saved figures (snapshot ' + date(DATA.snapshot_date) + ')'); }
 }
 boot();
 })();
