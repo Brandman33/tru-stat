@@ -91,7 +91,7 @@ async function bankRate() {
 
 export async function onRequest(context) {
   const cache = caches.default;
-  const key = new Request(new URL('/api/live?v=1', context.request.url).toString());
+  const key = new Request(new URL('/api/live?v=2', context.request.url).toString());
   const hit = await cache.match(key);
   if (hit) return hit;
 
