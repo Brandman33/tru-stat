@@ -66,10 +66,25 @@ h2 .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; b
 .fig .pre { font-weight: 400; }
 .chg { margin: 0; font-size: 13px; font-weight: 500; }
 .chg .vs { font-weight: 400; color: var(--mut); }
-.chg.good .arr { color: #9BE22D; } .chg.bad .arr { color: #FF6B6B; }
+.chg.good { color: #9BE22D; } .chg.bad { color: #FF6B6B; }
+.chg.good .vs, .chg.bad .vs { color: var(--mut); }
 .chg.flat { color: var(--amber); } .chg.flat .vs { color: color-mix(in srgb, var(--amber) 70%, var(--mut)); }
 .per { margin: 0; font-size: 12.5px; color: var(--mut); }
 .stamp { margin: 0; align-self: flex-start; font-size: 12px; font-weight: 400; padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--ac) 22%, transparent); color: var(--fg); }
+.vrow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.vbadge { cursor: pointer; border: 0; font-size: 11.5px; font-weight: 500; padding: 3px 9px; border-radius: 999px; background: rgba(155,226,45,.14); color: #9BE22D; }
+.vbadge.unv { background: rgba(255,176,32,.14); color: var(--amber); }
+.vbadge.mis { background: rgba(255,107,107,.16); color: #FF6B6B; }
+.vcheck { margin: var(--s2) 0 0; padding: var(--s2) var(--s3); border-radius: 8px; background: rgba(255,255,255,.04); border-left: 3px solid #9BE22D; }
+.vcheck.unv { border-left-color: var(--amber); }
+.vcheck q { color: #dfe1e5; font-style: italic; }
+.corr { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--s2); }
+.corr li { background: var(--panel); border: 1px solid #3a3d44; border-radius: 10px; padding: var(--s2) var(--s3); font-size: 13px; color: #c9ccd2; }
+.corr b { color: var(--fg); font-weight: 500; }
+.defs { --ac: #2DD4BF; border-radius: 14px; padding: var(--s4); border: 1px solid color-mix(in srgb, var(--ac) 45%, transparent); background: var(--panel); display: flex; flex-direction: column; gap: var(--s3); }
+.defs h3 { margin: 0; font-size: 15px; font-weight: 500; }
+.defs ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: var(--s2); font-size: 13px; color: #c9ccd2; }
+.defs ol b { color: var(--fg); font-weight: 500; }
 .stamp .lv { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #9BE22D; margin-right: 6px; vertical-align: 1px; }
 details.what { font-size: 12.5px; color: var(--mut); }
 details.what summary { cursor: pointer; list-style: none; color: var(--mut); display: inline-flex; align-items: center; gap: 4px; }
@@ -126,6 +141,7 @@ details.what p { margin: var(--s1) 0 0; }
 .check { border-radius: 12px; padding: var(--s3) var(--s4); background: var(--panel); border: 1px solid #3a3d44; }
 .check b { font-size: 14px; font-weight: 600; }
 .check p { margin: var(--s1) 0 0; font-size: 13px; color: #c9ccd2; }
+.linkbtn { background: none; border: 0; padding: 0; color: var(--fg); text-decoration: underline; cursor: pointer; font-size: inherit; }
 .tw { overflow-x: auto; border-radius: 14px; background: var(--panel); border: 1px solid #3a3d44; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th, td { text-align: left; padding: 9px 14px; }
@@ -177,9 +193,16 @@ details.small li { margin-bottom: var(--s1); }
   <div class="layout">
     <div class="main">
       <section id="big6"><h2>The big six</h2><div class="grid1" id="g-big6"></div></section>
-      <section id="watch"><h2><span class="sw"></span>Also worth watching</h2><div class="grid2" id="g-watch"></div><div class="facts" id="facts"></div></section>
-      <section id="immigration"><h2><span class="sw"></span>Immigration</h2><div class="grid2" id="g-imm"></div><div class="pies" id="p-imm"></div></section>
-      <section id="crime"><h2><span class="sw"></span>Crime and immigration</h2><div class="grid2" id="g-crime"></div><div class="pies" id="p-crime"></div>
+      <section id="gdp"><h2>The economy in detail</h2><div class="grid2" id="g-gdp"></div></section>
+      <section id="watch"><h2>Also worth watching</h2><div class="grid2" id="g-watch"></div><div class="facts" id="facts"></div></section>
+      <section id="housing"><h2>Housing</h2><div class="grid2" id="g-housing"></div>
+        <div class="charts">
+          <div class="chart" id="chart-house"><h3>Average house price by nation</h3><div class="plot" id="housechart"></div>
+            <p class="note">Labels show the change on a year earlier. In London, prices fell 3.5% in the year to September 2026, the biggest fall of any English region; the North East rose most, by 4.6%. Northern Ireland is quarterly. Source: ONS and HM Land Registry, 18 Nov 2026.</p></div>
+        </div>
+      </section>
+      <section id="immigration"><h2>Immigration</h2><div class="grid2" id="g-imm"></div><div class="pies" id="p-imm"></div></section>
+      <section id="crime"><h2>Crime and immigration</h2><div class="grid2" id="g-crime"></div><div class="pies" id="p-crime"></div>
         <div class="gap">
           <h3>What isn’t published, and why it’s hard to find</h3>
           <ul>
@@ -190,13 +213,24 @@ details.small li { margin-bottom: var(--s1); }
           </ul>
         </div>
       </section>
-      <section id="money"><h2><span class="sw"></span>Where the money goes</h2><div class="pies" id="p-money"></div></section>
-      <section id="time"><h2><span class="sw"></span>Over time</h2>
+      <section id="money"><h2>Where the money goes</h2><div class="pies" id="p-money"></div>
+        <div class="defs" id="welfare-defs">
+          <h3>What counts as “welfare”? Why you hear different numbers</h3>
+          <ol>
+            <li><b>Benefits and the State Pension (about 23p in every £1 spent).</b> This is the DWP’s own definition, and the one used on this page. The DWP puts it at 23.6% of all government spending in 2025-26.</li>
+            <li><b>“Social protection”, a wider Treasury category.</b> It adds things like adult social care and public sector workers’ pensions, so it’s a bigger share. Claims that welfare is “a third of spending” usually use this, or older years.</li>
+            <li><b>The “welfare state”: benefits plus the NHS.</b> Around half of all spending. Sometimes quoted as if it were benefits alone.</li>
+            <li><b>Compared with one tax rather than all spending.</b> “Welfare costs more than income tax raises” is true but includes the State Pension. The UK Statistics Authority said in June 2026 that claims like this should make that clear.</li>
+          </ol>
+          <p class="note">Each figure is right for its own definition. The spin comes from swapping one for another without saying so. Sources: DWP benefit expenditure tables guidance; UK Statistics Authority letter, June 2026.</p>
+        </div>
+      </section>
+      <section id="time"><h2>Over time</h2>
         <div class="charts">
           <div class="chart" id="chart-aid"><h3>Foreign aid by year</h3>
             <div class="ctl"><label>From <select id="aidfrom" aria-label="From year"></select></label><label>to <select id="aidto" aria-label="To year"></select></label></div>
             <div class="plot" id="aidchart"></div><p class="note">Aid is counted by calendar year only. Faded bars are early (provisional) figures.</p></div>
-          <div class="chart" id="chart-rate"><h3>Bank Rate since August 2025</h3><div class="plot" id="ratechart"></div><p class="note">Dots mark decisions that changed the rate.</p></div>
+          <div class="chart" id="chart-rate"><h3>Interest rate (Bank Rate) since August 2025</h3><div class="plot" id="ratechart"></div><p class="note">Dots mark decisions that changed the rate.</p></div>
           <div class="chart" id="chart-gdp"><h3>Growth each quarter of 2026</h3><div class="plot" id="gdpchart"></div><p class="note">Compared with the quarter before. First estimates often get revised.</p></div>
         </div>
       </section>
@@ -208,6 +242,16 @@ details.small li { margin-bottom: var(--s1); }
           <div class="check"><b>Who published it?</b><p>Every figure here comes from an official statistics body or government department, and links to the original. Party, campaign and think-tank figures are never used.</p></div>
         </div>
       </section>
+      <section id="checks"><h2>How every figure is checked</h2>
+        <div class="checks">
+          <div class="check"><b>Checked against the original</b><p>Each saved figure is checked against the official release itself. Tap the tick on any card to see the source wording and the date it was checked.</p></div>
+          <div class="check"><b>Live figures are tested automatically</b><p>Before a live figure replaces a saved one, it must be in a sensible range, not jump far more than usual, and be at least as new. Anything that fails is held back for a person to check.</p></div>
+          <div class="check"><b>Second-hand figures are flagged</b><p>Where an official number could only be found through a news report or another organisation, its card says so in amber until it’s been matched to the original.</p></div>
+          <div class="check"><b>Mistakes are logged in public</b><p>Every correction is listed below, with what changed and why.</p></div>
+        </div>
+        <h2 style="font-size:16px; margin-top: var(--s2)">Corrections and updates</h2>
+        <ul class="corr" id="corrections"></ul>
+      </section>
       <section id="next"><h2>Coming up next</h2><div class="tw"><table><thead><tr><th>Figure</th><th>Next update</th><th>Published by</th></tr></thead><tbody id="upcoming"></tbody></table></div></section>
       <details class="small">
         <summary>The small print</summary>
@@ -216,18 +260,20 @@ details.small li { margin-bottom: var(--s1); }
           <li>A green dot on a date means the figure was fetched live from the ONS or the Bank of England when you opened the page. Everything else is the latest saved official figure, updated whenever the site is refreshed.</li>
           <li>Two figures are official Home Office numbers as reported by the PA news agency, because the official page couldn’t be read directly: small boats so far in 2026, and asylum seekers in hotels.</li>
           <li>K = thousand, M = million, Bn = billion, Tn = trillion.</li>
+          <li>Green means a change most people agree is good, red one most agree is bad, and amber means no change. Inflation is judged by whether it’s moving towards or away from the 2% target. Figures where the direction is itself a political argument (tax, welfare, aid, migration and prison numbers) are left uncoloured.</li>
           <li>Many figures are first estimates and get revised, especially borrowing, debt, GDP and migration.</li>
           <li>HMRC counts tax when the cash arrives; the ONS counts it when it’s owed. Their totals can differ.</li>
           <li>Prison figures cover England and Wales. Health figures are for England.</li>
           <li>Today’s talking points are short summaries written from Met Office and UKHSA releases.</li>
           <li>Rings and pies only show a real share of a whole, or progress towards a stated target.</li>
-          <li>Quick links reorder themselves around what you open most. This is remembered only in your own browser.</li>
+          <li>Privacy: tru-stat uses no cookies, no adverts, no tracking and no accounts, and collects no personal information. The quick links reorder themselves around what you open most; that count is kept only in your own browser and never sent anywhere. <button type="button" class="linkbtn" id="clearclicks">Clear it</button></li>
+          <li>Contains public sector information licensed under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a>. Bank of England data is used under its own terms. Open Sans is used under the SIL Open Font Licence.</li>
         </ul>
       </details>
     </div>
 
     <aside class="today" id="today" aria-label="Today’s talking points">
-      <h2><span class="sw"></span>Today’s talking points</h2>
+      <h2>Today’s talking points</h2>
       <div class="talks" id="talks"></div>
       <div class="grid3" id="g-today"></div>
     </aside>
@@ -239,7 +285,7 @@ details.small li { margin-bottom: var(--s1); }
 'use strict';
 const C = { mag: '#FF3D9A', ora: '#FF8A1F', lim: '#9BE22D', cya: '#22D3EE', vio: '#A57BFF', yel: '#FFC93C' };
 // one colour per section after the big six
-const SEC = { watch: '#5B8CFF', imm: '#FF7A59', crime: '#E879F9', money: '#2DD4BF', today: '#3EE0B0', time: '#C4B5FD' };
+const SEC = { housing: '#D6B588', gdp: '#38BDF8', watch: '#5B8CFF', imm: '#FF7A59', crime: '#E879F9', money: '#2DD4BF', today: '#3EE0B0', time: '#C4B5FD' };
 const RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const $ = (s) => document.querySelector(s);
@@ -260,10 +306,10 @@ const OTHER = '#4a4e58';
 // ---------- number formatting: K, M, Bn, Tn ----------
 function money(pounds) {
   const a = Math.abs(pounds);
-  if (a >= 1e12) return { pre: '£', n: (pounds / 1e12).toFixed(3), u: 'Tn' };
+  if (a >= 1e12) return { pre: '£', n: String(parseFloat((pounds / 1e12).toFixed(3))), u: 'Tn' };
   if (a >= 1e9) return { pre: '£', n: (pounds / 1e9).toFixed(1), u: 'Bn' };
   if (a >= 1e6) return { pre: '£', n: a >= 1e8 ? Math.round(pounds / 1e6).toString() : (pounds / 1e6).toFixed(1), u: 'M' };
-  if (a >= 1e3) return { pre: '£', n: Math.round(pounds / 1e3).toString(), u: 'K' };
+  if (a >= 1e5) return { pre: '£', n: Math.round(pounds / 1e3).toString(), u: 'K' };
   return { pre: '£', n: String(Math.round(pounds)), u: '' };
 }
 function count(v) {
@@ -279,6 +325,7 @@ function fmt(value, kind, dp) {
   if (kind === 'm') return money(v * 1e6);
   if (kind === 'bn') return money(v * 1e9);
   if (kind === 'count') return count(v);
+  if (kind === 'gbp') return money(v);
   const n = dp === undefined ? String(value) : v.toFixed(dp);
   if (kind === 'pluspct') return { pre: '+', n, u: '%' };
   if (kind === 'rate') return { pre: '', n, u: ' per 100K' };
@@ -288,8 +335,8 @@ const fmtText = (o) => o.pre + commas(o.n) + o.u;
 
 // ---------- cards: [id, kind, change?, good direction, label, description, ring] ----------
 const BIG6 = [
-  ['cpi', 'pct', true, 'down', 'Inflation', 'How much more the same basket of shopping costs than a year ago (CPI). The Bank of England aims for 2%.', C.mag],
-  ['bank_rate', 'pct', true, '', 'Bank Rate', 'The Bank of England’s main interest rate. It steers mortgage, loan and savings rates.', C.ora],
+  ['cpi', 'pct', true, 'target2', 'Inflation', 'How much more the same basket of shopping costs than a year ago (CPI). The Bank of England aims for 2%.', C.mag],
+  ['bank_rate', 'pct', true, '', 'Interest rate', 'The Bank of England’s base interest rate, officially called Bank Rate. It steers mortgage, loan and savings rates.', C.ora],
   ['gdp', 'pct', true, 'up', 'Economic growth', 'How much bigger the whole economy (GDP) got compared with the three months before.', C.lim],
   ['aid', 'm', true, '', 'Foreign aid', 'Official Development Assistance for 2025: money for poorer countries, counted under international (OECD) rules.', C.cya,
     (F) => ({ pct: +F.aid_gni.value / 0.7 * 100, text: F.aid_gni.value + '%', cap: 'of national income. The legal target is 0.7%.' })],
@@ -298,13 +345,30 @@ const BIG6 = [
   ['tax_ytd', 'bn', true, '', 'Tax take this year', 'Tax and National Insurance collected by HMRC since the tax year began on 6 April.', C.yel,
     (F) => { const p = +F.tax_year.value / +F.spending.value * 100; return { pct: p, text: Math.round(p) + '%', cap: 'of public spending was covered by HMRC tax last year' }; }],
 ];
+const GDP = [
+  ['gdp_size', 'bn', false, '', 'Size of the economy', 'The value of everything the UK produced in 2025, in cash terms. It passed £3 trillion for the first time.'],
+  ['gdp_yoy', 'pct', true, 'up', 'Growth on a year ago', 'How much bigger the economy was in July to September 2026 than in the same three months of 2025, after taking off inflation.'],
+  ['gdp_month', 'pct', true, 'up', 'Growth in the latest month', 'Monthly GDP: how much the economy grew in a single month. Monthly figures jump around more than quarterly ones.'],
+  ['gdp_per_head', 'pct', false, '', 'Growth per person', 'Real GDP divided by the population: a better guide to living standards than total GDP, because the population is growing too.'],
+  ['gdp_2025', 'pct', false, '', 'Growth in 2025', 'How much the economy grew over the whole of 2025 compared with 2024, after taking off inflation.'],
+  ['gdp_nominal_2025', 'pct', false, '', 'Cash growth in 2025', 'Growth in 2025 before taking off inflation. The gap between this and real growth is mostly rising prices.'],
+];
+const HOUSING = [
+  ['house_price', 'gbp', false, '', 'Average house price', 'The average price paid for a home in the UK, from Land Registry sales records. Recent months are provisional and often revised as more sales are registered.'],
+  ['house_price_growth', 'pct', true, '', 'House price growth', 'How much more the average home costs than a year earlier.'],
+  ['rent', 'gbp', false, '', 'Average monthly rent', 'The average private rent across the UK, covering both new and existing tenancies.'],
+  ['rent_growth', 'pct', true, '', 'Rent growth', 'How much more the average private rent is than a year earlier.'],
+  ['rent_london', 'gbp', false, '', 'Rent in London', 'The average private rent in London, the highest of any English region.'],
+  ['home_sales', 'count', true, '', 'Home sales in a month', 'Completed sales of homes worth £40,000 or more across the UK, adjusted for normal seasonal ups and downs.'],
+  ['hmos', 'count', false, '', 'HMOs in England', 'Estimated houses in multiple occupation: homes shared by several households, such as house-shares and some temporary accommodation. Councils report these estimates each year. A newer 2024-25 figure was published in February 2026 and is being checked.'],
+];
 const WATCH = [
   ['unemployment', 'pct', true, 'down', 'Unemployment', 'Share of people who want a job and are looking, but don’t have one. The ONS warns the survey behind it is less reliable than usual.', (F) => ({ pct: +F.unemployment.value, cap: 'of the workforce' })],
-  ['core_cpi', 'pct', true, 'down', 'Core inflation', 'Inflation without energy, food, alcohol and tobacco, which jump around.'],
-  ['borrowing', 'bn', true, '', 'Borrowing in a month', 'The gap between what the government spent and what it took in, in one month.'],
-  ['debt', 'bn', true, '', 'National debt', 'Public sector net debt excluding public sector banks: what the public sector owes, minus its cash and easy-to-sell assets.'],
-  ['debt_gdp', 'pct', true, '', 'Debt vs the economy', 'The debt compared with the value of everything the UK produces in a year.', (F) => ({ pct: Math.min(100, +F.debt_gdp.value), cap: 'of a year’s GDP' })],
-  ['debt_interest', 'bn', true, '', 'Debt interest in a month', 'Interest central government paid on its debt in one month.'],
+  ['core_cpi', 'pct', true, 'target2', 'Core inflation', 'Inflation without energy, food, alcohol and tobacco, which jump around.'],
+  ['borrowing', 'bn', true, 'down', 'Borrowing in a month', 'The gap between what the government spent and what it took in, in one month.'],
+  ['debt', 'bn', true, 'down', 'National debt', 'Public sector net debt excluding public sector banks: what the public sector owes, minus its cash and easy-to-sell assets.'],
+  ['debt_gdp', 'pct', true, 'down', 'Debt vs the economy', 'The debt compared with the value of everything the UK produces in a year.', (F) => ({ pct: Math.min(100, +F.debt_gdp.value), cap: 'of a year’s GDP' })],
+  ['debt_interest', 'bn', true, 'down', 'Debt interest in a month', 'Interest central government paid on its debt in one month.'],
   ['tax_year', 'bn', false, '', 'Tax take last year', 'Everything HMRC collected in the last full tax year.'],
   ['spending', 'bn', false, '', 'All public spending', 'Everything the public sector spent in a year: day-to-day plus investment.'],
   ['pension', 'bn', false, '', 'State Pension', 'The biggest single slice of the welfare bill.', (F) => ({ pct: +F.pension.value / +F.welfare.value * 100, cap: 'of welfare spending' })],
@@ -324,9 +388,9 @@ const IMM = [
   ['immigration', 'count', true, '', 'Arriving long-term', 'People who moved to the UK for at least 12 months.'],
   ['emigration', 'count', true, '', 'Leaving long-term', 'People who left the UK for at least 12 months, including British citizens.'],
   ['asylum_claims', 'count', true, '', 'Asylum claims', 'People (main applicants and dependants) who claimed asylum in the UK over 12 months.'],
-  ['small_boats_year', 'count', true, '', 'Small boat arrivals', 'People detected arriving by small boat across the Channel over 12 months (official quarterly figure).'],
+  ['small_boats_year', 'count', true, 'down', 'Small boat arrivals', 'People detected arriving by small boat across the Channel over 12 months (official quarterly figure).'],
   ['small_boats_ytd', 'count', false, '', 'Small boats in 2026 so far', 'Provisional daily Home Office count since 1 January, as reported by the PA news agency. The quarterly figures are the final ones.'],
-  ['asylum_hotels', 'count', true, '', 'Asylum seekers in hotels', 'People in asylum support housed temporarily in hotels at the end of the period.'],
+  ['asylum_hotels', 'count', true, 'down', 'Asylum seekers in hotels', 'People in asylum support housed temporarily in hotels at the end of the period.'],
 ];
 const CRIME = [
   ['fno_prison', 'count', false, '', 'Foreign nationals in prison', 'Prisoners in England and Wales who are not British nationals: on remand, sentenced, or held under immigration powers. Down 5% on a year earlier.'],
@@ -336,10 +400,10 @@ const CRIME = [
 
 // quick links: [key, label, target id, colour]
 const LINKS = [
-  ['cpi', 'Inflation', 'card-cpi', C.mag], ['bank_rate', 'Bank Rate', 'card-bank_rate', C.ora], ['gdp', 'Growth', 'card-gdp', C.lim],
+  ['cpi', 'Inflation', 'card-cpi', C.mag], ['bank_rate', 'Interest rate', 'card-bank_rate', C.ora], ['gdp', 'Growth', 'card-gdp', C.lim],
   ['aid', 'Foreign aid', 'card-aid', C.cya], ['welfare', 'Welfare', 'card-welfare', C.vio], ['tax_ytd', 'Tax', 'card-tax_ytd', C.yel],
-  ['unemployment', 'Jobs', 'card-unemployment', SEC.watch], ['debt', 'Debt', 'card-debt', SEC.watch], ['imm', 'Immigration', 'immigration', SEC.imm],
-  ['crime', 'Prisons', 'crime', SEC.crime], ['today', 'Health and weather', 'today', SEC.today], ['money', 'Where the money goes', 'money', SEC.money],
+  ['gdp', 'Economy', 'gdp', SEC.gdp], ['unemployment', 'Jobs', 'card-unemployment', SEC.watch], ['debt', 'Debt', 'card-debt', SEC.watch], ['housing', 'Housing', 'housing', SEC.housing], ['imm', 'Immigration', 'immigration', SEC.imm],
+  ['crime', 'Prisons', 'crime', SEC.crime], ['today', 'Health and weather', 'today', SEC.today], ['money', 'Where the money goes', 'money', SEC.money], ['checks', 'How we check', 'checks', '#9BE22D'],
 ];
 const store = { get() { try { return JSON.parse(localStorage.getItem('trustat-clicks') || '{}'); } catch (e) { return {}; } },
   bump(k) { try { const c = store.get(); c[k] = (c[k] || 0) + 1; localStorage.setItem('trustat-clicks', JSON.stringify(c)); } catch (e) {} } };
@@ -426,6 +490,13 @@ function changeText(ch, kind) {
   if (kind === 'rate') return ch.abs.toFixed(ch.p) + ' per 100K';
   return fmtText(fmt(ch.abs, kind));
 }
+function verifyInfo(id, f) {
+  if (f.live) return { badge: '✓ Live, auto-checked', title: 'Fetched live and passed the range, jump and date checks', text: 'Fetched live from ' + f.source.replace(' (live)', '') + ' when you opened the page. It passed the automatic range, jump and date checks.' };
+  const v = (DATA.verification || {})[id];
+  if (!v) return { badge: '! Not yet checked', cls: 'unv', title: 'Not yet independently checked', text: 'This figure hasn’t been independently checked against its source yet.' };
+  if (v.status === 'verified') return { badge: '✓ Verified ' + date(v.checked_on), title: 'Checked against the official source', text: 'Checked against ' + (v.official_source || f.source) + ' on ' + date(v.checked_on) + '.', quote: v.quote, table: v.table_or_series };
+  return { badge: '! Second-hand source', cls: 'unv', title: 'Official figure found only through another organisation', text: v.notes || 'This official figure could only be found through another organisation’s report, so it hasn’t been matched to the original yet.', quote: v.quote };
+}
 function buildCard(def, tier, F, i, color) {
   const [id, kind, hasChange, good, label, desc, ringFn] = def;
   const f = F[id]; if (!f) return null;
@@ -443,7 +514,8 @@ function buildCard(def, tier, F, i, color) {
     const p = el('p', 'chg');
     if (ch.dir === 'flat') { p.classList.add('flat'); p.append(el('span', 'arr', '● '), 'No change ', el('span', 'vs', 'vs ' + (f.prev_label || 'before'))); }
     else {
-      if (good) p.classList.add(ch.dir === good ? 'good' : 'bad');
+      if (good === 'target2') { const away = Math.abs(+f.value - 2) > Math.abs(+f.prev_value - 2); p.classList.add(away ? 'bad' : 'good'); }
+      else if (good) p.classList.add(ch.dir === good ? 'good' : 'bad');
       p.append(el('span', 'arr', ch.dir === 'up' ? '▲ ' : '▼ '), changeText(ch, kind) + ' ', el('span', 'vs', 'vs ' + (f.prev_label || 'before')));
     }
     card.appendChild(p);
@@ -460,11 +532,22 @@ function buildCard(def, tier, F, i, color) {
       }
     } catch (e) { /* missing inputs: no ring */ }
   }
+  const vr = el('div', 'vrow');
   const st = el('p', 'stamp'); if (f.live) { st.appendChild(el('span', 'lv')); st.title = 'Fetched live when you opened the page'; }
   st.appendChild(document.createTextNode('Latest data: ' + date(f.published)));
-  card.appendChild(st);
+  vr.appendChild(st);
+  const v = verifyInfo(id, f);
+  const badge = el('button', 'vbadge' + (v.cls ? ' ' + v.cls : ''), v.badge); badge.type = 'button'; badge.title = v.title;
+  vr.appendChild(badge);
+  card.appendChild(vr);
   const det = el('details', 'what'); det.appendChild(el('summary', '', 'What is this?'));
   det.appendChild(el('p', '', desc));
+  const vc = el('div', 'vcheck' + (v.cls ? ' unv' : ''));
+  vc.appendChild(el('p', '', v.text));
+  if (v.quote) { const q = el('p'); q.appendChild(el('q', '', v.quote)); vc.appendChild(q); }
+  if (v.table) vc.appendChild(el('p', '', 'Table or series: ' + v.table));
+  det.appendChild(vc);
+  badge.addEventListener('click', (e) => { e.stopPropagation(); det.open = true; vc.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'nearest' }); });
   const p2 = el('p'); p2.append('Next update: ' + date(f.next_update) + ' · ');
   const a = el('a', '', 'Source: ' + f.source + ' ↗'); a.href = f.url; a.target = '_blank'; a.rel = 'noopener'; p2.appendChild(a); det.appendChild(p2);
   card.appendChild(det);
@@ -498,7 +581,7 @@ function rateChart(host, pts, color) {
   const t0 = new Date(pts[0].date + 'T00:00:00Z').getTime(), t1 = Date.now();
   const lo = Math.min(...pts.map((p) => p.rate)) - 0.25, hi = Math.max(...pts.map((p) => p.rate)) + 0.25;
   const x = (t) => m.l + (t - t0) / (t1 - t0) * (W - m.l - m.r), y = (v) => H - m.b - (v - lo) / (hi - lo) * (H - m.t - m.b);
-  const s = sv('svg', { width: '100%', viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Bank Rate: ' + pts.map((p) => `${p.rate.toFixed(2)}% from ${date(p.date)}`).join(', ') });
+  const s = sv('svg', { width: '100%', viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Interest rate: ' + pts.map((p) => `${p.rate.toFixed(2)}% from ${date(p.date)}`).join(', ') });
   for (let v = Math.ceil(lo * 4) / 4; v <= hi + 1e-9; v += 0.25) {
     s.appendChild(sv('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), stroke: 'rgba(255,255,255,.08)' }));
     const tl = sv('text', { x: m.l - 6, y: y(v) + 4, 'text-anchor': 'end' }); tl.textContent = v.toFixed(2) + '%'; s.appendChild(tl);
@@ -510,7 +593,7 @@ function rateChart(host, pts, color) {
   const tip = tipFor(host);
   pts.forEach((p) => {
     const px = x(new Date(p.date + 'T00:00:00Z').getTime()), py = y(p.rate);
-    const c = sv('circle', { cx: px, cy: py, r: 6, fill: color }); c.addEventListener('pointermove', (ev) => tip.show(`${date(p.date)}: set to ${p.rate.toFixed(2)}%`, ev)); c.addEventListener('pointerleave', () => tip.hide()); s.appendChild(c);
+    const c = sv('circle', { cx: px, cy: py, r: 6, fill: color }); c.addEventListener('pointermove', (ev) => tip.show(`${date(p.date)}: interest rate set to ${p.rate.toFixed(2)}%`, ev)); c.addEventListener('pointerleave', () => tip.hide()); s.appendChild(c);
     const tl = sv('text', { x: Math.min(W - m.r - 18, Math.max(m.l + 18, px)), y: py - 13, 'text-anchor': 'middle', class: 'vl' }); tl.textContent = p.rate.toFixed(2) + '%'; s.appendChild(tl);
   });
   const ticks = Math.max(2, Math.min(5, Math.floor(W / 110)));
@@ -540,15 +623,17 @@ function renderQuick() {
 // ---------- render ----------
 function render() {
   const F = DATA.figures;
-  document.querySelectorAll('#watch, #immigration, #crime, #money, #time, #today').forEach((s) => {
-    const key = { watch: 'watch', immigration: 'imm', crime: 'crime', money: 'money', time: 'time', today: 'today' }[s.id];
+  document.querySelectorAll('#housing, #gdp, #watch, #immigration, #crime, #money, #time, #today').forEach((s) => {
+    const key = { housing: 'housing', gdp: 'gdp', watch: 'watch', immigration: 'imm', crime: 'crime', money: 'money', time: 'time', today: 'today' }[s.id];
     s.style.setProperty('--sc', SEC[key]);
   });
   const t1cards = [];
   const fill = (sel, defs, tier, colorFor) => { const g = $(sel); g.textContent = ''; defs.forEach((d, i) => { const c = buildCard(d, tier, F, i, colorFor(d, i)); if (c) { g.appendChild(c); if (tier === 't1') t1cards.push(c); } }); };
   fill('#g-big6', BIG6.map((d) => [d[0], d[1], d[2], d[3], d[4], d[5], d[7]]), 't1', (d, i) => BIG6[i][6]);
+  fill('#g-gdp', GDP, 't2', () => SEC.gdp);
   fill('#g-watch', WATCH, 't2', () => SEC.watch);
   fill('#g-today', TODAY, 't2', () => SEC.today);
+  fill('#g-housing', HOUSING, 't2', () => SEC.housing);
   fill('#g-imm', IMM, 't2', () => SEC.imm);
   fill('#g-crime', CRIME, 't2', () => SEC.crime);
   if ('IntersectionObserver' in window && !RM) {
@@ -558,7 +643,7 @@ function render() {
 
   const cpiCh = change(F.cpi);
   const lede = $('#lede'); lede.textContent = '';
-  lede.append('Prices are rising ', el('b', '', F.cpi.value + '%'), ' a year, ' + (cpiCh ? (cpiCh.dir === 'up' ? 'faster than' : cpiCh.dir === 'down' ? 'slower than' : 'the same as') : '') + ' last month. Bank Rate is ',
+  lede.append('Prices are rising ', el('b', '', F.cpi.value + '%'), ' a year, ' + (cpiCh ? (cpiCh.dir === 'up' ? 'faster than' : cpiCh.dir === 'down' ? 'slower than' : 'the same as') : '') + ' last month. The Bank of England’s interest rate is ',
     el('b', '', F.bank_rate.value + '%'), ', and the economy grew ', el('b', '', F.gdp.value + '%'), ' last quarter. Every number is dated and linked to its source.');
   const dates = Object.values(F).map((f) => f.published).filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d || '')).sort();
   const fr = $('#fresh'); fr.textContent = ''; fr.append('Freshest figure: ', el('b', '', date(dates[dates.length - 1])));
@@ -602,7 +687,7 @@ function render() {
     { label: 'Covered by HMRC tax', value: +F.tax_year.value, text: fmtText(money(+F.tax_year.value * 1e9)) },
     { label: 'Everything else (other income and borrowing)', value: S - +F.tax_year.value, text: fmtText(money((S - +F.tax_year.value) * 1e9)) }], SEC.money, 'HMRC cash receipts vs total public spending.');
 
-  document.querySelectorAll('.chart').forEach((c) => c.style.setProperty('--ac', SEC.time));
+  document.querySelectorAll('#time .chart').forEach((c) => c.style.setProperty('--ac', SEC.time)); $('#chart-house').style.setProperty('--ac', SEC.housing);
   const ys = DATA.aid_history.map((r) => r.year);
   const fromSel = $('#aidfrom'), toSel = $('#aidto');
   [fromSel, toSel].forEach((sel) => { sel.textContent = ''; ys.forEach((y) => sel.appendChild(new Option(y, y))); });
@@ -610,15 +695,20 @@ function render() {
   const drawAid = () => { let a = +fromSel.value, b = +toSel.value; if (a > b) { [a, b] = [b, a]; fromSel.value = a; toSel.value = b; }
     bars($('#aidchart'), DATA.aid_history.filter((r) => r.year >= a && r.year <= b), { val: (r) => r.value, color: C.cya, label: (r) => fmtText(money(r.value * 1e6)), xl: (r) => String(r.year), tip: (r) => `${r.year}: ${fmtText(money(r.value * 1e6))} (${r.status})`, dim: (r) => r.status !== 'final', aria: `UK foreign aid by year, ${a} to ${b}` }); };
   fromSel.onchange = toSel.onchange = drawAid;
-  const drawCharts = () => { drawAid(); rateChart($('#ratechart'), DATA.bank_rate_history, C.ora);
+  const drawHouse = () => bars($('#housechart'), DATA.house_by_nation || [], { val: (r) => r.value, color: SEC.housing, label: (r) => fmtText(money(r.value)) + ' (' + (r.change >= 0 ? '+' : '') + r.change + '%)', xl: (r) => r.area === 'Northern Ireland' ? 'N. Ireland' : r.area, tip: (r) => `${r.area}: ${fmtText(money(r.value))}, ${r.change >= 0 ? 'up' : 'down'} ${Math.abs(r.change)}% on a year earlier (${r.period})`, aria: 'Average house price by UK nation' });
+  const drawCharts = () => { drawAid(); drawHouse(); rateChart($('#ratechart'), DATA.bank_rate_history, C.ora);
     bars($('#gdpchart'), DATA.gdp_quarters, { val: (r) => r.value, color: C.lim, label: (r) => r.value + '%', xl: (r) => r.quarter.replace(' 2026', ''), tip: (r) => `${r.quarter}: grew ${r.value}%`, aria: 'UK GDP growth each quarter of 2026' }); };
   drawCharts();
   let rt; window.onresize = () => { clearTimeout(rt); rt = setTimeout(drawCharts, 150); };
 
-  const NEXT = ['flu_pos', 'borrowing', 'tax_ytd', 'net_migration', 'asylum_claims', 'unemployment', 'cpi', 'bank_rate', 'gdp', 'fno_prison', 'aid', 'welfare'];
+  const NEXT = ['house_price_growth', 'home_sales', 'flu_pos', 'borrowing', 'tax_ytd', 'net_migration', 'asylum_claims', 'unemployment', 'cpi', 'bank_rate', 'gdp', 'fno_prison', 'aid', 'welfare'];
   const key = (f) => /^\d{4}-\d{2}-\d{2}$/.test(f.next_update || '') ? f.next_update : '9999';
   const tb = $('#upcoming'); tb.textContent = '';
   NEXT.map((id) => F[id]).filter(Boolean).sort((a, b) => key(a).localeCompare(key(b))).forEach((f) => { const tr = el('tr'); tr.append(el('td', '', f.label), el('td', '', date(f.next_update)), el('td', '', f.source)); tb.appendChild(tr); });
+  const cl = $('#corrections'); cl.textContent = '';
+  const corr = DATA.corrections || [];
+  if (!corr.length) cl.appendChild(el('li', '', 'No corrections yet.'));
+  corr.slice().reverse().forEach((c) => { const li = el('li'); li.append(el('b', '', date(c.date) + ' · ' + c.figure + ': '), c.change + (c.reason ? ' ' + c.reason : '')); cl.appendChild(li); });
   renderQuick();
 }
 
@@ -641,11 +731,13 @@ async function boot() {
     const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 8000);
     const res = await fetch('api/live', { signal: ctl.signal }); clearTimeout(to);
     if (!res.ok) throw new Error(res.status);
-    const n = merge(await res.json());
-    pill.classList.add('live'); pill.textContent = ''; pill.append(el('span', 'dot'), n ? `${n} ${n === 1 ? 'figure' : 'figures'} checked live just now` : 'Live check done: saved figures are current');
+    const live = await res.json(); const n = merge(live); const h = (live.held_back || []).length;
+    pill.classList.add('live'); pill.textContent = '';
+    pill.append(el('span', 'dot'), (n ? `${n} ${n === 1 ? 'figure' : 'figures'} checked live just now` : 'Live check done: saved figures are current') + (h ? ` · ${h} held back for a manual check` : ''));
     if (n) render();
   } catch (e) { pill.textContent = ''; pill.append(el('span', 'dot'), 'Showing saved figures (snapshot ' + date(DATA.snapshot_date) + ')'); }
 }
+try { document.getElementById('clearclicks').addEventListener('click', (e) => { try { localStorage.removeItem('trustat-clicks'); } catch (x) {} e.target.textContent = 'Cleared'; renderQuick(); }); } catch (e) {}
 boot();
 })();
 </script>
