@@ -2,23 +2,54 @@
 // Fetches the latest official figures straight from the ONS and the Bank of England,
 // caches the result for an hour, and returns only what it could read.
 // The page falls back to its saved figures (data/dashuk.json) for anything missing.
-
+ 
 const UA = 'tru-stat/1.0 (public dashboard of official UK statistics)';
 const CACHE_SECONDS = 3600;
 const MON = { JAN: 1, FEB: 2, MAR: 3, APR: 4, MAY: 5, JUN: 6, JUL: 7, AUG: 8, SEP: 9, OCT: 10, NOV: 11, DEC: 12 };
 const MNAME = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
+ 
 // ONS series: id on the page -> [path to the series, which list to read, how to treat it]
 const ONS = {
   cpi:          ['/economy/inflationandpriceindices/timeseries/d7g7/mm23', 'months', 'prevPeriod'],
   core_cpi:     ['/economy/inflationandpriceindices/timeseries/dko8/mm23', 'months', 'prevPeriod'],
   unemployment: ['/employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/mgsx/lms', 'months', 'prevPeriod'],
   gdp:          ['/economy/grossdomesticproductgdp/timeseries/ihyq/pn2', 'quarters', 'prevPeriod'],
+  gdp_yoy:      ['/economy/grossdomesticproductgdp/timeseries/ihyr/pn2', 'quarters', 'prevPeriod'],
   borrowing:    ['/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/j5ii/pusf', 'months', 'prevYear', 'millionsToBillions'],
   debt:         ['/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/hf6w/pusf', 'months', 'prevYear', 'maybeMillions'],
   debt_gdp:     ['/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/hf6x/pusf', 'months', 'prevYear'],
 };
-
+ 
+// Automatic checks. A live figure is only used if it passes all three:
+// 1. sense check: inside a plausible range for that statistic
+// 2. jump check: not wildly different from the last saved, verified figure (a big jump is held back for a person to check)
+// 3. date check (in the page): it must be at least as new as the saved figure
+const RANGE = {
+  cpi: [-5, 25], core_cpi: [-5, 25], unemployment: [1, 20], gdp: [-25, 25], gdp_yoy: [-30, 30],
+  borrowing: [-60, 150], debt: [1500, 6000], debt_gdp: [40, 160], bank_rate: [0, 20],
+};
+const MAX_JUMP = {
+  cpi: 1.5, core_cpi: 1.5, unemployment: 0.8, gdp: 1.5, gdp_yoy: 2.5,
+  borrowing: 30, debt: 150, debt_gdp: 5, bank_rate: 1.0,
+};
+function check(id, f, saved) {
+  const v = parseFloat(f.value);
+  if (!isFinite(v)) return 'not a number';
+  const r = RANGE[id];
+  if (r && (v < r[0] || v > r[1])) return `outside the plausible range ${r[0]} to ${r[1]}`;
+  const s = saved && saved[id] ? parseFloat(saved[id].value) : NaN;
+  if (isFinite(s) && MAX_JUMP[id] !== undefined && Math.abs(v - s) > MAX_JUMP[id]) return `moved ${Math.abs(v - s).toFixed(2)} from the saved ${s}, more than the ${MAX_JUMP[id]} allowed without a manual check`;
+  return null;
+}
+async function savedFigures(context) {
+  try {
+    const url = new URL('/data/dashuk.json', context.request.url);
+    const r = context.env && context.env.ASSETS ? await context.env.ASSETS.fetch(url) : await fetch(url);
+    if (!r.ok) return null;
+    return (await r.json()).figures || null;
+  } catch (e) { return null; }
+}
+ 
 const iso = (d) => (d instanceof Date && !isNaN(d)) ? d.toISOString().slice(0, 10) : null;
 const label = (s) => {
   // "2026 OCT" -> "Oct 2026"; "2026 Q3" -> "Jul–Sep 2026"; "2026 JUL-SEP" -> "Jul–Sep 2026"
@@ -29,13 +60,13 @@ const label = (s) => {
   return s;
 };
 const round = (v, p) => { const f = 10 ** p; return Math.round(v * f) / f; };
-
+ 
 async function getJSON(url) {
   const r = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/json' }, cf: { cacheTtl: CACHE_SECONDS, cacheEverything: true } });
   if (!r.ok) throw new Error(`${url} -> ${r.status}`);
   return r.json();
 }
-
+ 
 async function onsFigure(id, [path, list, mode, scale]) {
   const j = await getJSON(`https://www.ons.gov.uk${path}/data`);
   const rows = (j[list] || []).filter((r) => r.value !== '' && r.value !== null && !isNaN(parseFloat(r.value)));
@@ -65,9 +96,10 @@ async function onsFigure(id, [path, list, mode, scale]) {
     out.period = mid(last.date); out.prev_label = mid(prev.date);
   }
   if (id === 'cpi' || id === 'core_cpi') out.period = '12 months to ' + out.period;
+  if (id === 'gdp_yoy') out.period = out.period + ' vs a year earlier';
   return out;
 }
-
+ 
 async function bankRate() {
   const from = '01/Jan/2024';
   const url = `https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp?csv.x=yes&Datefrom=${from}&Dateto=now&SeriesCodes=IUDBEDR&CSVF=TN&UsingCodes=Y&VPD=Y&VFD=N`;
@@ -88,25 +120,29 @@ async function bankRate() {
     url: 'https://www.bankofengland.co.uk/monetary-policy/the-interest-rate-bank-rate',
   };
 }
-
+ 
 export async function onRequest(context) {
   const cache = caches.default;
-  const key = new Request(new URL('/api/live?v=2', context.request.url).toString());
+  const key = new Request(new URL('/api/live?v=4', context.request.url).toString());
   const hit = await cache.match(key);
   if (hit) return hit;
-
+ 
   const jobs = Object.entries(ONS).map(([id, spec]) => onsFigure(id, spec).then((f) => [id, f]));
   jobs.push(bankRate().then((f) => ['bank_rate', f]));
-  const settled = await Promise.allSettled(jobs);
-  const figures = {}, errors = [];
+  const [settled, saved] = await Promise.all([Promise.allSettled(jobs), savedFigures(context)]);
+  const figures = {}, errors = [], held_back = [];
   for (const s of settled) {
-    if (s.status === 'fulfilled') figures[s.value[0]] = s.value[1];
-    else errors.push(String(s.reason && s.reason.message || s.reason));
+    if (s.status !== 'fulfilled') { errors.push(String(s.reason && s.reason.message || s.reason)); continue; }
+    const [id, f] = s.value;
+    const problem = check(id, f, saved);
+    if (problem) held_back.push({ id, value: f.value, reason: problem });
+    else figures[id] = Object.assign(f, { checks: 'passed range and jump checks' });
   }
-  const body = JSON.stringify({ fetched_at: new Date().toISOString(), figures, errors });
+  const body = JSON.stringify({ fetched_at: new Date().toISOString(), figures, held_back, errors });
   const res = new Response(body, {
     headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': `public, max-age=${CACHE_SECONDS}`, 'Access-Control-Allow-Origin': '*' },
   });
   if (Object.keys(figures).length) context.waitUntil(cache.put(key, res.clone()));
   return res;
 }
+ 
