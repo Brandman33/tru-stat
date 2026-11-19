@@ -1,0 +1,498 @@
+{
+ "name": "tru-stat",
+ "snapshot_date": "2026-11-19",
+ "figures": {
+  "cpi": {
+   "label": "Inflation (CPI)",
+   "value": "3.6",
+   "prev_value": "3.5",
+   "prev_label": "Sep 2026",
+   "period": "12 months to Oct 2026",
+   "published": "2026-11-18",
+   "next_update": "2026-12-16",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/october2026"
+  },
+  "core_cpi": {
+   "label": "Core inflation",
+   "value": "2.8",
+   "prev_value": "2.8",
+   "prev_label": "Sep 2026",
+   "period": "12 months to Oct 2026",
+   "published": "2026-11-18",
+   "next_update": "2026-12-16",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/october2026"
+  },
+  "bank_rate": {
+   "label": "Bank Rate",
+   "value": "4.00",
+   "prev_value": "3.75",
+   "prev_label": "before 5 Nov 2026",
+   "period": "set 5 Nov 2026",
+   "published": "2026-11-05",
+   "next_update": "2026-12-17",
+   "source": "Bank of England",
+   "url": "https://www.bankofengland.co.uk/monetary-policy-report/2026/November-2026"
+  },
+  "unemployment": {
+   "label": "Unemployment rate",
+   "value": "4.6",
+   "prev_value": "4.7",
+   "prev_label": "Jun–Aug 2026",
+   "period": "Jul–Sep 2026",
+   "published": "2026-11-17",
+   "next_update": "2026-12-15",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment"
+  },
+  "gdp": {
+   "label": "Economic growth (GDP)",
+   "value": "0.7",
+   "prev_value": "0.5",
+   "prev_label": "Apr–Jun 2026",
+   "period": "Jul–Sep 2026 (first estimate)",
+   "published": "2026-11-12",
+   "next_update": "2026-12-22",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/grossdomesticproductgdp/bulletins/gdpfirstquarterlyestimateuk/julytoseptember2026"
+  },
+  "borrowing": {
+   "label": "Government borrowing in the month",
+   "value": "24.5",
+   "prev_value": "22.8",
+   "prev_label": "Sep 2025",
+   "period": "Sep 2026",
+   "published": "2026-10-21",
+   "next_update": "2026-11-20",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/bulletins/publicsectorfinances/september2026"
+  },
+  "debt": {
+   "label": "National debt",
+   "value": "3005.0",
+   "prev_value": "2913.3",
+   "prev_label": "end Sep 2025",
+   "period": "end Sep 2026 (provisional)",
+   "published": "2026-10-21",
+   "next_update": "2026-11-20",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/bulletins/publicsectorfinances/september2026"
+  },
+  "debt_gdp": {
+   "label": "Debt as a share of the economy",
+   "value": "94.0",
+   "prev_value": "94.7",
+   "prev_label": "end Sep 2025",
+   "period": "end Sep 2026 (provisional)",
+   "published": "2026-10-21",
+   "next_update": "2026-11-20",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/bulletins/publicsectorfinances/september2026"
+  },
+  "debt_interest": {
+   "label": "Debt interest in the month",
+   "value": "10.9",
+   "prev_value": "9.3",
+   "prev_label": "Sep 2025",
+   "period": "Sep 2026",
+   "published": "2026-10-21",
+   "next_update": "2026-11-20",
+   "source": "ONS",
+   "url": "https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/bulletins/publicsectorfinances/september2026"
+  },
+  "tax_ytd": {
+   "label": "Tax collected so far this tax year",
+   "value": "467.3",
+   "prev_value": "437.8",
+   "prev_label": "Apr–Sep 2025",
+   "period": "Apr–Sep 2026",
+   "published": "2026-10-21",
+   "next_update": "2026-11-20",
+   "source": "HMRC",
+   "url": "https://www.gov.uk/government/statistics/hmrc-tax-and-nics-receipts-for-the-uk"
+  },
+  "tax_year": {
+   "label": "Tax collected last tax year",
+   "value": "937.8",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "2025-26 tax year",
+   "published": "2026-08-21",
+   "next_update": "early 2027",
+   "source": "HMRC",
+   "url": "https://www.gov.uk/government/statistics/announcements/hmrc-tax-receipts-and-national-insurance-contributions-for-the-uk--88"
+  },
+  "spending": {
+   "label": "Total government spending",
+   "value": "1360",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "2025-26 financial year",
+   "published": "2026-03",
+   "next_update": "with each OBR forecast",
+   "source": "OBR via House of Lords Library",
+   "url": "https://lordslibrary.parliament.uk/?p=29047"
+  },
+  "welfare": {
+   "label": "Benefits and State Pension paid by DWP",
+   "value": "311.2",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "2025-26 financial year",
+   "published": "2026-07",
+   "next_update": "summer 2027",
+   "source": "NAO report on DWP accounts",
+   "url": "https://www.nao.org.uk/wp-content/uploads/2026/07/DWP-Report-on-Accounts-NAO.epub"
+  },
+  "pension": {
+   "label": "of which State Pension",
+   "value": "145.8",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "2025-26 financial year",
+   "published": "2026-07",
+   "next_update": "summer 2027",
+   "source": "NAO report on DWP accounts",
+   "url": "https://www.nao.org.uk/wp-content/uploads/2026/07/DWP-Report-on-Accounts-NAO.epub"
+  },
+  "aid": {
+   "label": "Foreign aid (ODA)",
+   "value": "13095",
+   "prev_value": "14082",
+   "prev_label": "2024",
+   "period": "calendar year 2025 (final)",
+   "published": "2026-09-17",
+   "next_update": "spring 2027 (provisional 2026)",
+   "source": "FCDO",
+   "url": "https://www.gov.uk/government/statistics/statistics-on-international-development-final-uk-oda-spend-2025"
+  },
+  "aid_gni": {
+   "label": "Aid as a share of national income",
+   "value": "0.44",
+   "prev_value": "0.50",
+   "prev_label": "2024",
+   "period": "calendar year 2025 (final)",
+   "published": "2026-09-17",
+   "next_update": "spring 2027 (provisional 2026)",
+   "source": "FCDO",
+   "url": "https://www.gov.uk/government/statistics/statistics-on-international-development-final-uk-oda-spend-2025"
+  },
+  "aid_refugee": {
+   "label": "Aid spent on refugees in the UK",
+   "value": "2403",
+   "prev_value": "2827",
+   "prev_label": "2024",
+   "period": "calendar year 2025 (final)",
+   "published": "2026-09-17",
+   "next_update": "spring 2027 (provisional 2026)",
+   "source": "FCDO",
+   "url": "https://www.gov.uk/government/statistics/statistics-on-international-development-final-uk-oda-spend-2025"
+  },
+  "net_migration": {
+   "label": "Net migration",
+   "value": "171000",
+   "prev_value": "331000",
+   "prev_label": "year to Dec 2024",
+   "period": "year to Dec 2025 (provisional)",
+   "published": "2026-05-21",
+   "next_update": "2026-11-26",
+   "source": "ONS",
+   "url": "https://www.gov.uk/government/statistics/long-term-international-migration-provisional-year-ending-december-2025"
+  },
+  "immigration": {
+   "label": "People arriving long-term",
+   "value": "813000",
+   "prev_value": "1010000",
+   "prev_label": "year to Dec 2024",
+   "period": "year to Dec 2025 (provisional)",
+   "published": "2026-05-21",
+   "next_update": "2026-11-26",
+   "source": "ONS",
+   "url": "https://www.gov.uk/government/statistics/long-term-international-migration-provisional-year-ending-december-2025"
+  },
+  "emigration": {
+   "label": "People leaving long-term",
+   "value": "642000",
+   "prev_value": "680000",
+   "prev_label": "year to Dec 2024",
+   "period": "year to Dec 2025 (provisional)",
+   "published": "2026-05-21",
+   "next_update": "2026-11-26",
+   "source": "ONS",
+   "url": "https://www.gov.uk/government/statistics/long-term-international-migration-provisional-year-ending-december-2025"
+  },
+  "asylum_claims": {
+   "label": "Asylum claims",
+   "value": "85891",
+   "prev_value": "108585",
+   "prev_label": "year to Jun 2025",
+   "period": "year to Jun 2026",
+   "published": "2026-08-27",
+   "next_update": "late Nov 2026",
+   "source": "Home Office",
+   "url": "https://www.gov.uk/government/statistics/immigration-system-statistics-year-ending-june-2026/how-many-people-claim-asylum-in-the-uk"
+  },
+  "small_boats_year": {
+   "label": "Small boat arrivals",
+   "value": "33374",
+   "prev_value": "43309",
+   "prev_label": "year to Jun 2025",
+   "period": "year to Jun 2026",
+   "published": "2026-08-27",
+   "next_update": "late Nov 2026",
+   "source": "Home Office",
+   "url": "https://www.gov.uk/government/statistics/immigration-system-statistics-year-ending-june-2026/how-many-people-come-to-the-uk-via-illegal-entry-routes"
+  },
+  "small_boats_ytd": {
+   "label": "Small boat arrivals in 2026 so far",
+   "value": "23129",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "1 Jan to 8 Nov 2026 (provisional)",
+   "published": "2026-11-08",
+   "next_update": "daily",
+   "source": "Home Office daily data (reported by PA)",
+   "url": "https://www.gov.uk/government/publications/migrants-detected-crossing-the-english-channel-in-small-boats"
+  },
+  "asylum_hotels": {
+   "label": "Asylum seekers in hotels",
+   "value": "16021",
+   "prev_value": "32041",
+   "prev_label": "end Jun 2025",
+   "period": "end Jun 2026",
+   "published": "2026-08-27",
+   "next_update": "late Nov 2026",
+   "source": "Home Office (reported by PA)",
+   "url": "https://www.gov.uk/government/statistics/immigration-system-statistics-year-ending-june-2026/how-many-people-are-in-the-uk-asylum-system"
+  },
+  "fno_prison": {
+   "label": "Foreign nationals in prison",
+   "value": "10217",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "30 Sep 2026 (England and Wales)",
+   "published": "2026-10-29",
+   "next_update": "late Jan 2027",
+   "source": "Ministry of Justice",
+   "url": "https://www.gov.uk/government/statistics/offender-management-statistics-quarterly-april-to-june-2026"
+  },
+  "fno_share": {
+   "label": "Foreign nationals as share of prisoners",
+   "value": "12",
+   "prev_value": "12.3",
+   "prev_label": "30 Sep 2025",
+   "period": "30 Sep 2026 (England and Wales)",
+   "published": "2026-10-29",
+   "next_update": "late Jan 2027",
+   "source": "Ministry of Justice",
+   "url": "https://www.gov.uk/government/statistics/offender-management-statistics-quarterly-april-to-june-2026"
+  },
+  "prison_total": {
+   "label": "Total prison population",
+   "value": "87712",
+   "prev_value": "87465",
+   "prev_label": "30 Sep 2025",
+   "period": "30 Sep 2026 (England and Wales)",
+   "published": "2026-10-29",
+   "next_update": "late Jan 2027",
+   "source": "Ministry of Justice",
+   "url": "https://www.gov.uk/government/statistics/offender-management-statistics-quarterly-april-to-june-2026"
+  },
+  "flu_pos": {
+   "label": "Flu test positivity",
+   "value": "11.4",
+   "prev_value": "8.3",
+   "prev_label": "the week before",
+   "period": "week to 15 Nov 2026 (England)",
+   "published": "2026-11-19",
+   "next_update": "2026-11-26",
+   "source": "UKHSA",
+   "url": "https://www.gov.uk/government/news/latest-ukhsa-weekly-winter-virus-surveillance-data"
+  },
+  "flu_hosp": {
+   "label": "Flu hospital admissions",
+   "value": "4.68",
+   "prev_value": "3.76",
+   "prev_label": "the week before",
+   "period": "week to 15 Nov 2026 (England)",
+   "published": "2026-11-19",
+   "next_update": "2026-11-26",
+   "source": "UKHSA",
+   "url": "https://www.gov.uk/government/news/latest-ukhsa-weekly-winter-virus-surveillance-data"
+  },
+  "covid_pos": {
+   "label": "COVID-19 test positivity",
+   "value": "7.0",
+   "prev_value": "7.2",
+   "prev_label": "the week before",
+   "period": "week to 15 Nov 2026 (England)",
+   "published": "2026-11-19",
+   "next_update": "2026-11-26",
+   "source": "UKHSA",
+   "url": "https://www.gov.uk/government/news/latest-ukhsa-weekly-winter-virus-surveillance-data"
+  },
+  "covid_hosp": {
+   "label": "COVID-19 hospital admissions",
+   "value": "2.22",
+   "prev_value": "2.15",
+   "prev_label": "the week before",
+   "period": "week to 15 Nov 2026 (England)",
+   "published": "2026-11-19",
+   "next_update": "2026-11-26",
+   "source": "UKHSA",
+   "url": "https://www.gov.uk/government/news/latest-ukhsa-weekly-winter-virus-surveillance-data"
+  },
+  "rsv_pos": {
+   "label": "RSV test positivity",
+   "value": "5.2",
+   "prev_value": "3.2",
+   "prev_label": "the week before",
+   "period": "week to 15 Nov 2026 (England)",
+   "published": "2026-11-19",
+   "next_update": "2026-11-26",
+   "source": "UKHSA",
+   "url": "https://www.gov.uk/government/news/latest-ukhsa-weekly-winter-virus-surveillance-data"
+  },
+  "norovirus": {
+   "label": "Norovirus vs a usual year",
+   "value": "5.4",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "2 to 15 Nov 2026 (England)",
+   "published": "2026-11-19",
+   "next_update": "2026-11-26",
+   "source": "UKHSA",
+   "url": "https://www.gov.uk/government/news/latest-ukhsa-weekly-winter-virus-surveillance-data"
+  },
+  "rotavirus": {
+   "label": "Rotavirus vs a usual year",
+   "value": "60.3",
+   "prev_value": null,
+   "prev_label": null,
+   "period": "2 to 15 Nov 2026 (England)",
+   "published": "2026-11-19",
+   "next_update": "2026-11-26",
+   "source": "UKHSA",
+   "url": "https://www.gov.uk/government/news/latest-ukhsa-weekly-winter-virus-surveillance-data"
+  }
+ },
+ "pies": {
+  "fno_nat": [
+   {
+    "label": "Albanian",
+    "value": 9.0
+   },
+   {
+    "label": "Irish",
+    "value": 7.0
+   },
+   {
+    "label": "Polish",
+    "value": 6.0
+   },
+   {
+    "label": "Romanian",
+    "value": 6.0
+   },
+   {
+    "label": "Indian",
+    "value": 4.0
+   },
+   {
+    "label": "All other nationalities",
+    "value": 68.0
+   }
+  ],
+  "asylum_route": [
+   {
+    "label": "Arrived by small boat",
+    "value": 40.0
+   },
+   {
+    "label": "All other routes",
+    "value": 60.0
+   }
+  ]
+ },
+ "talking": [
+  {
+   "id": "weather",
+   "topic": "Weather",
+   "headline": "Cold snap: a yellow cold-health alert covers the North West, North East and Yorkshire until Thursday morning",
+   "detail": "Fog possible on Thursday morning. Drier but colder from Friday, Friday night may be the coldest of the week. The weekend forecast is uncertain with rain possibly returning from the west.",
+   "published": "2026-11-16",
+   "source": "Met Office and UKHSA",
+   "url": "https://www.metoffice.gov.uk/about-us/news-and-media/media-centre/weather-and-climate-news/2026/snow-warning-in-force-as-unsettled-weather-continues-"
+  },
+  {
+   "id": "bugs",
+   "topic": "Health",
+   "headline": "Winter bugs: flu, RSV and rotavirus are rising while COVID-19 is roughly flat",
+   "detail": "Flu is circulating earlier and faster than last week. Rotavirus is well above the level usually seen at this time of year.",
+   "published": "2026-11-19",
+   "source": "UKHSA",
+   "url": "https://www.gov.uk/government/news/latest-ukhsa-weekly-winter-virus-surveillance-data"
+  }
+ ],
+ "aid_history": [
+  {
+   "year": 2020,
+   "value": 14478,
+   "status": "implied from the 2021 provisional release"
+  },
+  {
+   "year": 2021,
+   "value": 11496,
+   "status": "provisional"
+  },
+  {
+   "year": 2022,
+   "value": 12774,
+   "status": "provisional"
+  },
+  {
+   "year": 2023,
+   "value": 15374,
+   "status": "provisional"
+  },
+  {
+   "year": 2024,
+   "value": 14082,
+   "status": "final"
+  },
+  {
+   "year": 2025,
+   "value": 13095,
+   "status": "final"
+  }
+ ],
+ "bank_rate_history": [
+  {
+   "date": "2025-08-07",
+   "rate": 4.0
+  },
+  {
+   "date": "2025-12-18",
+   "rate": 3.75
+  },
+  {
+   "date": "2026-11-05",
+   "rate": 4.0
+  }
+ ],
+ "gdp_quarters": [
+  {
+   "quarter": "Jan–Mar 2026",
+   "value": 0.6
+  },
+  {
+   "quarter": "Apr–Jun 2026",
+   "value": 0.5
+  },
+  {
+   "quarter": "Jul–Sep 2026",
+   "value": 0.7
+  }
+ ]
+}
