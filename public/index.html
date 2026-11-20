@@ -57,6 +57,13 @@ h2 .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; b
   border: 1px solid color-mix(in srgb, var(--ac) 55%, transparent);
   background: linear-gradient(155deg, color-mix(in srgb, var(--ac) 20%, var(--panel)) 0%, color-mix(in srgb, var(--ac) 6%, var(--panel)) 100%); transition: box-shadow .3s; }
 .card.flash { box-shadow: 0 0 0 3px var(--ac); }
+.card { align-items: center; text-align: center; cursor: pointer; }
+.card .vrow { margin-top: auto; justify-content: center; padding-top: var(--s2); }
+.card .stamp { align-self: center; }
+.card .ringline { justify-content: center; text-align: left; }
+.card details.what { width: 100%; }
+.card details.what summary { justify-content: center; }
+.card.armed { box-shadow: 0 0 0 2px #fff, 0 0 0 6px color-mix(in srgb, var(--ac) 60%, transparent); }
 .card h3 { margin: 0; font-size: 22px; font-weight: 500; line-height: 1.2; color: var(--ac); letter-spacing: -0.01em; }
 .t2 h3 { font-size: 19px; }
 .fig { margin: 0; font-weight: 600; letter-spacing: -0.02em; line-height: 1.02; color: var(--fg); font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -142,6 +149,22 @@ details.what p { margin: var(--s1) 0 0; }
 .check b { font-size: 14px; font-weight: 600; }
 .check p { margin: var(--s1) 0 0; font-size: 13px; color: #c9ccd2; }
 .linkbtn { background: none; border: 0; padding: 0; color: var(--fg); text-decoration: underline; cursor: pointer; font-size: inherit; }
+.tiptext { margin-top: calc(-1 * var(--s2)); font-size: 12.5px; }
+.cmp-back { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.62); display: flex; align-items: center; justify-content: center; padding: 16px; }
+.cmp { position: relative; width: min(560px, 100%); max-height: 88vh; overflow: auto; background: #1f2126; border: 1px solid #444852; border-radius: 16px; padding: 22px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+.cmp.warn { border-color: var(--amber); }
+.cmp h3 { margin: var(--s4) 0 var(--s2); font-size: 18px; font-weight: 600; }
+.cmp.warn h3 { color: var(--amber); }
+.cmp p { margin: 0 0 var(--s2); font-size: 14px; color: #d6d8dd; line-height: 1.5; }
+.cmp .cmp-note { font-size: 12px; color: var(--dim); }
+.cmp-x { position: absolute; top: 8px; right: 10px; background: none; border: 0; color: var(--mut); font-size: 26px; cursor: pointer; line-height: 1; }
+.cmp-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); }
+.cmp-fig { --ac: #fff; border-radius: 12px; padding: var(--s3); text-align: center; border: 1px solid color-mix(in srgb, var(--ac) 55%, transparent); background: color-mix(in srgb, var(--ac) 14%, #1f2126); display: flex; flex-direction: column; gap: 2px; }
+.cmp-fig b { font-size: 26px; font-weight: 600; }
+.cmp-l { color: var(--ac); font-size: 13px; font-weight: 500; }
+.cmp-p { color: var(--mut); font-size: 11.5px; }
+.cmp-hint { position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 20px); opacity: 0; transition: all .2s; z-index: 40; background: #fff; color: #111; padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 500; pointer-events: none; }
+.cmp-hint.on { opacity: 1; transform: translate(-50%, 0); }
 .tw { overflow-x: auto; border-radius: 14px; background: var(--panel); border: 1px solid #3a3d44; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th, td { text-align: left; padding: 9px 14px; }
@@ -159,7 +182,7 @@ details.small li { margin-bottom: var(--s1); }
   .layout { display: flex; flex-direction: column; align-items: stretch; gap: var(--s6); }
   .layout > *, .main > * { width: 100%; }
   .main { display: contents; }
-  #big6 { order: 1; } aside.today { order: 2; position: static; } .main > section:not(#big6), .main > details { order: 3; }
+  .main > section, .main > details { order: 1; } aside.today { order: 2; position: static; } #check, #checks, #next, .main > details { order: 3; }
   .grid3 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); }
   .talks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: var(--s3); }
 }
@@ -192,27 +215,9 @@ details.small li { margin-bottom: var(--s1); }
 
   <div class="layout">
     <div class="main">
-      <section id="big6"><h2>The big six</h2><div class="grid1" id="g-big6"></div></section>
+      <section id="big6"><h2>The big six</h2><p class="note tiptext">Tip: tap any two cards within a second or so to see how they connect.</p><div class="grid1" id="g-big6"></div></section>
       <section id="gdp"><h2>The economy in detail</h2><div class="grid2" id="g-gdp"></div></section>
-      <section id="watch"><h2>Also worth watching</h2><div class="grid2" id="g-watch"></div><div class="facts" id="facts"></div></section>
-      <section id="housing"><h2>Housing</h2><div class="grid2" id="g-housing"></div>
-        <div class="charts">
-          <div class="chart" id="chart-house"><h3>Average house price by nation</h3><div class="plot" id="housechart"></div>
-            <p class="note">Labels show the change on a year earlier. In London, prices fell 3.5% in the year to September 2026, the biggest fall of any English region; the North East rose most, by 4.6%. Northern Ireland is quarterly. Source: ONS and HM Land Registry, 18 Nov 2026.</p></div>
-        </div>
-      </section>
-      <section id="immigration"><h2>Immigration</h2><div class="grid2" id="g-imm"></div><div class="pies" id="p-imm"></div></section>
-      <section id="crime"><h2>Crime and immigration</h2><div class="grid2" id="g-crime"></div><div class="pies" id="p-crime"></div>
-        <div class="gap">
-          <h3>What isn’t published, and why it’s hard to find</h3>
-          <ul>
-            <li>Police recorded crime figures don’t include the nationality or immigration status of suspects. A Home Office minister confirmed this in a written answer on 28 April 2026.</li>
-            <li>The Ministry of Justice publishes how many foreign nationals are in prison every quarter, but not convictions by nationality. It says prisoners’ immigration status is held by the Home Office, not by the Ministry.</li>
-            <li>On 22 June 2026 the Information Commissioner ordered the Ministry of Justice to release convictions by nationality for 2018 to 2024, after a Freedom of Information request. The Ministry appealed to the First-tier Tribunal on 17 July 2026. No ruling had been reported by mid-November.</li>
-            <li>In April 2025 the Home Office said it intends to publish more statistics on foreign national offenders once its data systems are upgraded.</li>
-          </ul>
-        </div>
-      </section>
+      <section id="watch"><h2>Public finances and jobs</h2><div class="grid2" id="g-watch"></div><div class="facts" id="facts"></div></section>
       <section id="money"><h2>Where the money goes</h2><div class="pies" id="p-money"></div>
         <div class="defs" id="welfare-defs">
           <h3>What counts as “welfare”? Why you hear different numbers</h3>
@@ -234,6 +239,25 @@ details.small li { margin-bottom: var(--s1); }
           <div class="chart" id="chart-gdp"><h3>Growth each quarter of 2026</h3><div class="plot" id="gdpchart"></div><p class="note">Compared with the quarter before. First estimates often get revised.</p></div>
         </div>
       </section>
+      <section id="housing"><h2>Housing</h2><div class="grid2" id="g-housing"></div>
+        <div class="charts">
+          <div class="chart" id="chart-house"><h3>Average house price by nation</h3><div class="plot" id="housechart"></div>
+            <p class="note">Labels show the change on a year earlier. In London, prices fell 3.5% in the year to September 2026, the biggest fall of any English region; the North East rose most, by 4.6%. Northern Ireland is quarterly. Source: ONS and HM Land Registry, 18 Nov 2026.</p></div>
+        </div>
+      </section>
+      <section id="immigration"><h2>Immigration</h2><div class="grid2" id="g-imm"></div><div class="pies" id="p-imm"></div></section>
+      <section id="crime"><h2>Crime and immigration</h2><div class="grid2" id="g-crime"></div><div class="pies" id="p-crime"></div>
+        <div class="gap">
+          <h3>What isn’t published, and why it’s hard to find</h3>
+          <ul>
+            <li>Police recorded crime figures don’t include the nationality or immigration status of suspects. A Home Office minister confirmed this in a written answer on 28 April 2026.</li>
+            <li>The Ministry of Justice publishes how many foreign nationals are in prison every quarter, but not convictions by nationality. It says prisoners’ immigration status is held by the Home Office, not by the Ministry.</li>
+            <li>On 22 June 2026 the Information Commissioner ordered the Ministry of Justice to release convictions by nationality for 2018 to 2024, after a Freedom of Information request. The Ministry appealed to the First-tier Tribunal on 17 July 2026. No ruling had been reported by mid-November.</li>
+            <li>In April 2025 the Home Office said it intends to publish more statistics on foreign national offenders once its data systems are upgraded.</li>
+          </ul>
+        </div>
+      </section>
+      <section id="health"><h2>Health</h2><div class="grid2" id="g-today"></div></section>
       <section id="check"><h2>How to check a claim</h2>
         <div class="checks">
           <div class="check"><b>Same measure?</b><p>“Inflation” can mean CPI, CPIH or RPI. “Debt” can include or exclude the Bank of England. A claim is only comparable if it uses the same measure.</p></div>
@@ -242,10 +266,10 @@ details.small li { margin-bottom: var(--s1); }
           <div class="check"><b>Who published it?</b><p>Every figure here comes from an official statistics body or government department, and links to the original. Party, campaign and think-tank figures are never used.</p></div>
         </div>
       </section>
-      <section id="checks"><h2>How every figure is checked</h2>
+      <section id="checks"><h2>How every figure is verified</h2>
         <div class="checks">
-          <div class="check"><b>Checked against the original</b><p>Each saved figure is checked against the official release itself. Tap the tick on any card to see the source wording and the date it was checked.</p></div>
-          <div class="check"><b>Live figures are tested automatically</b><p>Before a live figure replaces a saved one, it must be in a sensible range, not jump far more than usual, and be at least as new. Anything that fails is held back for a person to check.</p></div>
+          <div class="check"><b>Verified against the original</b><p>Each saved figure is verified against the official release itself. Tap the badge on any card to see the source wording and when it was last verified.</p></div>
+          <div class="check"><b>Live figures are verified automatically</b><p>Before a live figure replaces a saved one, it must be in a sensible range, not jump far more than usual, and be at least as new. Anything that fails is held back for a person to verify.</p></div>
           <div class="check"><b>Second-hand figures are flagged</b><p>Where an official number could only be found through a news report or another organisation, its card says so in amber until it’s been matched to the original.</p></div>
           <div class="check"><b>Mistakes are logged in public</b><p>Every correction is listed below, with what changed and why.</p></div>
         </div>
@@ -275,7 +299,6 @@ details.small li { margin-bottom: var(--s1); }
     <aside class="today" id="today" aria-label="Today’s talking points">
       <h2>Today’s talking points</h2>
       <div class="talks" id="talks"></div>
-      <div class="grid3" id="g-today"></div>
     </aside>
   </div>
 </div>
@@ -294,6 +317,7 @@ const SVGNS = 'http://www.w3.org/2000/svg';
 const sv = (tag, attrs) => { const e = document.createElementNS(SVGNS, tag); for (const k in attrs || {}) e.setAttribute(k, attrs[k]); return e; };
 const commas = (s) => { s = String(s); const neg = s.startsWith('-'); if (neg) s = s.slice(1); const p = s.split('.'); return (neg ? '-' : '') + p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (p.length > 1 ? '.' + p[1] : ''); };
 const date = (s) => { if (!s) return '—'; const m = /^(\d{4})-(\d{2})(?:-(\d{2}))?$/.exec(String(s)); if (!m) return String(s); return m[3] ? `${+m[3]} ${MON[+m[2]-1]} ${m[1]}` : `${MON[+m[2]-1]} ${m[1]}`; };
+const dshort = (s) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s || '')); return m ? `${m[3]}/${m[2]}/${m[1].slice(2)}` : date(s); };
 const places = (s) => (String(s).split('.')[1] || '').length;
 const mix = (hex, t) => { // t>0 lighten towards white, t<0 darken towards black
   const n = parseInt(hex.slice(1), 16); let r = n >> 16, g = (n >> 8) & 255, b = n & 255;
@@ -403,7 +427,7 @@ const LINKS = [
   ['cpi', 'Inflation', 'card-cpi', C.mag], ['bank_rate', 'Interest rate', 'card-bank_rate', C.ora], ['gdp', 'Growth', 'card-gdp', C.lim],
   ['aid', 'Foreign aid', 'card-aid', C.cya], ['welfare', 'Welfare', 'card-welfare', C.vio], ['tax_ytd', 'Tax', 'card-tax_ytd', C.yel],
   ['gdp', 'Economy', 'gdp', SEC.gdp], ['unemployment', 'Jobs', 'card-unemployment', SEC.watch], ['debt', 'Debt', 'card-debt', SEC.watch], ['housing', 'Housing', 'housing', SEC.housing], ['imm', 'Immigration', 'immigration', SEC.imm],
-  ['crime', 'Prisons', 'crime', SEC.crime], ['today', 'Health and weather', 'today', SEC.today], ['money', 'Where the money goes', 'money', SEC.money], ['checks', 'How we check', 'checks', '#9BE22D'],
+  ['crime', 'Prisons', 'crime', SEC.crime], ['today', 'Health', 'health', SEC.today], ['money', 'Where the money goes', 'money', SEC.money], ['checks', 'How we verify', 'checks', '#9BE22D'],
 ];
 const store = { get() { try { return JSON.parse(localStorage.getItem('trustat-clicks') || '{}'); } catch (e) { return {}; } },
   bump(k) { try { const c = store.get(); c[k] = (c[k] || 0) + 1; localStorage.setItem('trustat-clicks', JSON.stringify(c)); } catch (e) {} } };
@@ -491,18 +515,18 @@ function changeText(ch, kind) {
   return fmtText(fmt(ch.abs, kind));
 }
 function verifyInfo(id, f) {
-  if (f.live) return { badge: '✓ Live, auto-checked', title: 'Fetched live and passed the range, jump and date checks', text: 'Fetched live from ' + f.source.replace(' (live)', '') + ' when you opened the page. It passed the automatic range, jump and date checks.' };
+  if (f.live) return { badge: '✓ Live, auto-verified', title: 'Fetched live and passed the range, jump and date checks', text: 'Fetched live from ' + f.source.replace(' (live)', '') + ' when you opened the page. It passed the automatic range, jump and date checks.' };
   const v = (DATA.verification || {})[id];
-  if (!v) return { badge: '! Not yet checked', cls: 'unv', title: 'Not yet independently checked', text: 'This figure hasn’t been independently checked against its source yet.' };
-  if (v.status === 'verified') return { badge: '✓ Verified ' + date(v.checked_on), title: 'Checked against the official source', text: 'Checked against ' + (v.official_source || f.source) + ' on ' + date(v.checked_on) + '.', quote: v.quote, table: v.table_or_series };
-  return { badge: '! Second-hand source', cls: 'unv', title: 'Official figure found only through another organisation', text: v.notes || 'This official figure could only be found through another organisation’s report, so it hasn’t been matched to the original yet.', quote: v.quote };
+  if (!v) return { badge: 'Not yet verified', cls: 'unv', title: 'Not yet independently verified', text: 'This figure hasn’t been independently verified against its source yet.' };
+  if (v.status === 'verified') return { badge: '✓ Last verified: ' + dshort(v.checked_on), title: 'Verified against the official source', text: 'Verified against ' + (v.official_source || f.source) + ' on ' + date(v.checked_on) + '.', quote: v.quote, table: v.table_or_series };
+  return { badge: '! Second-hand source', cls: 'unv', title: 'Official figure found only through another organisation', text: v.notes || 'This official figure could only be found through another organisation’s report, so it hasn’t been verified against the original yet.', quote: v.quote };
 }
 function buildCard(def, tier, F, i, color) {
   const [id, kind, hasChange, good, label, desc, ringFn] = def;
   const f = F[id]; if (!f) return null;
-  const card = el('article', 'card ' + tier); card.id = 'card-' + id; card.style.setProperty('--ac', color);
+  const card = el('article', 'card ' + tier); card.id = 'card-' + id; card.style.setProperty('--ac', color); card.dataset.id = id; card.dataset.label = label;
   card.appendChild(el('h3', '', label));
-  const o = fmt(f.value, kind), figText = commas(o.n);
+  const o = fmt(f.value, kind), figText = commas(o.n); card.dataset.show = o.pre + figText + o.u;
   const fig = el('p', 'fig'); fig.setAttribute('aria-label', o.pre + figText + o.u);
   const val = el('span');
   if (o.pre) fig.appendChild(el('span', 'pre', o.pre));
@@ -534,7 +558,7 @@ function buildCard(def, tier, F, i, color) {
   }
   const vr = el('div', 'vrow');
   const st = el('p', 'stamp'); if (f.live) { st.appendChild(el('span', 'lv')); st.title = 'Fetched live when you opened the page'; }
-  st.appendChild(document.createTextNode('Latest data: ' + date(f.published)));
+  st.appendChild(document.createTextNode('Latest data: ' + dshort(f.published)));
   vr.appendChild(st);
   const v = verifyInfo(id, f);
   const badge = el('button', 'vbadge' + (v.cls ? ' ' + v.cls : ''), v.badge); badge.type = 'button'; badge.title = v.title;
@@ -601,6 +625,135 @@ function rateChart(host, pts, color) {
   host.appendChild(s);
 }
 
+// ---------- compare two cards: tap one, then another within 1.5 seconds ----------
+const COMPARE_MS = 1500;
+const PRISON = ['fno_prison', 'fno_share', 'prison_total'];
+const MIGRATION = ['net_migration', 'immigration', 'emigration', 'asylum_claims', 'small_boats_year', 'small_boats_ytd', 'asylum_hotels'];
+function relation(a, b, F) {
+  const has = (x, y) => (a === x && b === y) || (a === y && b === x);
+  const v = (id) => Number(F[id].value);
+  const pct = (id) => F[id].value + '%';
+  const show = (id, kind) => fmtText(fmt(F[id].value, kind));
+  const dir = (id) => { const c = change(F[id]); return c ? c.dir : 'flat'; };
+  if ((PRISON.includes(a) && MIGRATION.includes(b)) || (PRISON.includes(b) && MIGRATION.includes(a))) return {
+    title: 'Handle with care', warn: true,
+    body: ['These two figures measure different groups of people. On their own, they can’t show whether migration affects crime, in either direction.',
+      'A fair comparison would need the foreign-national share of the adult population, its age and sex profile (prisoners are mostly young men), the types of offence, and convictions by nationality. Convictions by nationality aren’t published: see “What isn’t published” in the crime section.'] };
+  if (has('cpi', 'bank_rate')) {
+    const d = dir('bank_rate'), act = d === 'up' ? 'raised' : d === 'down' ? 'cut' : 'held';
+    return { title: 'Inflation and the interest rate', body: [
+      'The Bank of England sets the interest rate mainly to bring inflation back to its 2% target. Higher rates make borrowing dearer and saving more attractive, which cools spending and, over time, price rises.',
+      `Inflation is ${pct('cpi')}, ${v('cpi') > 2 ? 'above' : v('cpi') < 2 ? 'below' : 'at'} the target, and the Bank ${act} the rate to ${pct('bank_rate')} (${F.bank_rate.period}). A rate change usually takes a year or two to have its full effect on prices.`] };
+  }
+  if (has('cpi', 'core_cpi')) { const g = Math.round((v('cpi') - v('core_cpi')) * 10) / 10; return { title: 'Headline and core inflation', body: [
+    'Core inflation leaves out energy, food, alcohol and tobacco, whose prices jump around. The gap between the two shows how much those items are moving prices.',
+    g > 0 ? `Headline inflation is ${g} points above core, so those items are pushing prices up faster than everything else.` : g < 0 ? `Headline inflation is ${-g} points below core, so those items are holding inflation down.` : 'The two are the same, so those items are rising at about the same pace as everything else.'] }; }
+  if (has('bank_rate', 'debt_interest')) return { title: 'Interest rates and the government’s interest bill', body: [
+    'When interest rates rise, the government usually pays more to borrow, so its interest bill tends to follow rates over time, with a delay as old debt is replaced.',
+    `Debt interest was ${show('debt_interest', 'bn')} in ${F.debt_interest.period}, with the interest rate at ${pct('bank_rate')}.`] };
+  if (has('cpi', 'debt_interest')) return { title: 'Inflation and the government’s interest bill', body: [
+    'Around a quarter of UK government debt is index-linked: the amount owed rises with inflation (measured by RPI). So when inflation goes up, the interest bill goes up quickly too.',
+    `Inflation is ${pct('cpi')}; debt interest was ${show('debt_interest', 'bn')} in ${F.debt_interest.period}.`] };
+  if (has('borrowing', 'debt')) { const c = change(F.debt); return { title: 'Borrowing and debt', body: [
+    'Borrowing is the shortfall in a single month or year. Debt is the total built up over time. Each month’s borrowing adds to the debt.',
+    c ? `Debt is ${show('debt', 'bn')}, ${c.dir === 'up' ? 'up' : 'down'} ${fmtText(fmt(c.abs, 'bn'))} on ${F.debt.prev_label}. Borrowing in ${F.borrowing.period} alone was ${show('borrowing', 'bn')}.` : ''] }; }
+  if (has('debt', 'debt_gdp')) { const c1 = change(F.debt), c2 = change(F.debt_gdp); return { title: 'Debt in pounds vs debt as a share of the economy', body: [
+    'Debt can rise in pounds while falling as a share of the economy, if the economy (in cash terms, including inflation) grows faster than the debt.',
+    c1 && c2 ? `Over the year, debt went ${c1.dir} by ${fmtText(fmt(c1.abs, 'bn'))}, while debt as a share of GDP went ${c2.dir} by ${c2.abs.toFixed(c2.p)} points to ${pct('debt_gdp')}.` : ''] }; }
+  if (has('gdp', 'unemployment') || has('gdp_yoy', 'unemployment')) { const g = F.gdp_yoy ? 'gdp_yoy' : 'gdp'; return { title: 'Growth and jobs', body: [
+    'When the economy grows strongly, firms usually hire more and unemployment tends to fall, typically some months later. Weak growth tends to push unemployment up.',
+    `The economy grew ${pct('gdp')} last quarter (${pct('gdp_yoy')} on a year ago). Unemployment is ${pct('unemployment')}, ${dir('unemployment') === 'down' ? 'down' : dir('unemployment') === 'up' ? 'up' : 'unchanged'} on ${F.unemployment.prev_label}.`] }; }
+  if (has('gdp', 'gdp_per_head')) return { title: 'Total growth vs growth per person', body: [
+    'Total GDP grows when there are more people working, even if each person is no better off. Growth per person strips that out, so it’s the better guide to living standards.',
+    `Last quarter the economy grew ${pct('gdp')} in total and ${pct('gdp_per_head')} per person. The gap between the two is roughly how fast the population grew.`] };
+  if (has('gdp_2025', 'gdp_nominal_2025')) return { title: 'Real growth vs cash growth', body: [
+    'Cash growth includes rising prices; real growth takes them out. The gap between the two is roughly how much prices rose across the whole economy.',
+    `In 2025 the economy grew ${pct('gdp_nominal_2025')} in cash terms and ${pct('gdp_2025')} in real terms, so prices across the economy rose by roughly ${Math.round((v('gdp_nominal_2025') - v('gdp_2025')) * 10) / 10}%.`] };
+  if (has('gdp', 'tax_ytd') || has('gdp_yoy', 'tax_ytd')) return { title: 'Growth and tax', body: [
+    'A bigger economy usually means more tax. Receipts are also rising because income tax thresholds are frozen: as wages rise, more income is taxed, and at higher rates.',
+    `Tax collected so far this year is ${show('tax_ytd', 'bn')}; the economy is ${pct('gdp_yoy')} bigger than a year ago.`] };
+  if (has('tax_year', 'spending')) return { title: 'Tax take vs spending', body: [
+    `HMRC tax covered about ${Math.round(v('tax_year') / v('spending') * 100)}% of all public spending last year.`,
+    'The rest came from other income, such as council tax and business rates (which HMRC doesn’t collect), and from borrowing.'] };
+  if (has('welfare', 'spending')) return { title: 'Welfare as a share of spending', body: [
+    `Benefits and the State Pension were about ${Math.round(v('welfare') / v('spending') * 100)}p in every £1 of public spending in 2025-26.`,
+    'Wider definitions of “welfare” give bigger numbers: see “What counts as welfare?” in Where the money goes.'] };
+  if (has('pension', 'welfare')) return { title: 'How much of welfare is pensions', body: [
+    `The State Pension is about ${Math.round(v('pension') / v('welfare') * 100)}% of all welfare spending, the biggest single part.`,
+    'So claims about the “welfare bill” mean very different things depending on whether pensions are included.'] };
+  if (has('aid', 'aid_refugee')) return { title: 'How much aid is spent in the UK', body: [
+    `${show('aid_refugee', 'm')} of the ${show('aid', 'm')} aid total, about ${Math.round(v('aid_refugee') / v('aid') * 100)}%, was spent in the UK supporting refugees and asylum seekers in their first year.`,
+    'International rules allow this to count as aid.'] };
+  if (has('aid', 'aid_gni')) return { title: 'Aid in pounds vs aid as a share of national income', body: [
+    `Aid of ${show('aid', 'm')} was ${pct('aid_gni')} of national income in 2025. A 2015 law sets a target of 0.7%; the government plans to reduce aid to 0.3% by 2027.`] };
+  if (has('aid', 'spending')) return { title: 'Aid as a share of spending', body: [
+    `Foreign aid was about ${(Math.round(v('aid') / (v('spending') * 1000) * 1000) / 10)}p in every £1 of public spending.`, 'Aid covers calendar 2025 and spending covers April 2025 to March 2026, so this is approximate.'] };
+  if (has('unemployment', 'welfare')) return { title: 'Jobs and welfare', body: [
+    'Some benefits, such as Universal Credit, rise when unemployment rises. But most welfare spending is pensions and disability benefits, which don’t follow unemployment closely.',
+    `Unemployment is ${pct('unemployment')}; welfare spending was ${show('welfare', 'bn')} in 2025-26.`] };
+  if (has('bank_rate', 'house_price_growth') || has('bank_rate', 'home_sales')) return { title: 'Interest rates and the housing market', body: [
+    'Most buyers need a mortgage, and mortgage rates follow the interest rate and what markets expect it to do. Higher rates usually cool sales and price growth, with a delay of months.',
+    `The interest rate is ${pct('bank_rate')}. House prices are up ${pct('house_price_growth')} on a year ago, and ${show('home_sales', 'count')} homes were sold in ${F.home_sales.period.split(' (')[0]}.`] };
+  if (has('cpi', 'house_price_growth')) { const r = Math.round((v('house_price_growth') - v('cpi')) * 10) / 10; return { title: 'House prices after inflation', body: [
+    `House prices rose ${pct('house_price_growth')} while prices in general rose ${pct('cpi')}.`,
+    r < 0 ? 'So after inflation, homes got slightly cheaper in real terms.' : r > 0 ? 'So homes are getting dearer even after inflation.' : 'So house prices are keeping pace with inflation.',
+    'The two cover slightly different months.'] }; }
+  if (has('cpi', 'rent_growth')) return { title: 'Rents vs prices in general', body: [
+    `Rents rose ${pct('rent_growth')} while prices in general rose ${pct('cpi')}. ${v('rent_growth') > v('cpi') ? 'Renting is getting dearer faster than most things.' : 'Rents are rising more slowly than prices in general.'}`,
+    'Rents are themselves part of the inflation measure.'] };
+  if (has('house_price_growth', 'rent_growth')) return { title: 'Buying vs renting', body: [
+    `House prices are up ${pct('house_price_growth')} on a year ago; rents are up ${pct('rent_growth')}.`,
+    'They’re driven by different things: house prices depend heavily on mortgage rates, while rents depend more on wages and how many homes there are to rent.'] };
+  if (has('net_migration', 'gdp') || has('net_migration', 'gdp_per_head') || has('net_migration', 'gdp_yoy')) return { title: 'Population and growth', body: [
+    'More people living and working in the UK adds to total GDP, whatever their effect on each person’s living standards. That’s why growth per person is the better measure of whether people are better off.',
+    'Economists disagree about migration’s effect on growth per person; these figures alone can’t settle it.'] };
+  if (has('immigration', 'emigration') || has('net_migration', 'immigration') || has('net_migration', 'emigration')) return { title: 'Arriving, leaving and net migration', body: [
+    `Net migration is people arriving long-term minus people leaving: ${show('immigration', 'count')} − ${show('emigration', 'count')} = ${show('net_migration', 'count')} in ${F.net_migration.period.replace(' (provisional)', '')}.`] };
+  if (has('small_boats_year', 'asylum_claims')) return { title: 'Small boats and asylum', body: [
+    'About 40% of asylum claims in the year to June 2026 came from people who arrived by small boat. Most claims came through other routes, such as people already in the UK on visas.'] };
+  if (has('fno_prison', 'prison_total') || has('fno_share', 'prison_total') || has('fno_prison', 'fno_share')) return { title: 'Foreign nationals in prison', body: [
+    `${show('fno_prison', 'count')} of the ${show('prison_total', 'count')} people in prison in England and Wales are foreign nationals: ${pct('fno_share')}.`,
+    'Comparing this with the population needs care: prisoners are mostly young men, so the fair comparison is with the same age and sex group.'] };
+  if (has('flu_pos', 'flu_hosp') || has('covid_pos', 'covid_hosp')) return { title: 'Tests and hospital admissions', body: [
+    'A rise in the share of positive tests usually comes before a rise in hospital admissions, so positivity is an early warning sign.'] };
+  return { title: 'No established link', body: [
+    'There’s no well-established direct link between these two figures. If they seem to move together, it may be coincidence or something else driving both.',
+    'Be wary of claims that one causes the other.'] };
+}
+function openCompare(aCard, bCard) {
+  const F = DATA.figures, a = aCard.dataset.id, b = bCard.dataset.id;
+  const rel = relation(a, b, F);
+  const back = el('div', 'cmp-back'); const box = el('div', 'cmp' + (rel.warn ? ' warn' : ''));
+  box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', rel.title);
+  const close = el('button', 'cmp-x', '×'); close.type = 'button'; close.setAttribute('aria-label', 'Close');
+  const pair = el('div', 'cmp-pair');
+  [aCard, bCard].forEach((c) => { const m = el('div', 'cmp-fig'); m.style.setProperty('--ac', c.style.getPropertyValue('--ac'));
+    m.append(el('span', 'cmp-l', c.dataset.label), el('b', '', c.dataset.show), el('span', 'cmp-p', F[c.dataset.id].period || '')); pair.appendChild(m); });
+  box.append(close, pair, el('h3', '', rel.title));
+  rel.body.filter(Boolean).forEach((t) => box.appendChild(el('p', '', t)));
+  if ((F[a].period || '') !== (F[b].period || '') && !rel.warn) box.appendChild(el('p', 'cmp-note', 'Note: these figures cover different periods, so compare them with care.'));
+  box.appendChild(el('p', 'cmp-note', 'This explains how the two figures are known to connect. It isn’t a calculated statistical correlation.'));
+  back.appendChild(box); document.body.appendChild(back);
+  const done = () => { back.remove(); document.removeEventListener('keydown', onKey); };
+  const onKey = (e) => { if (e.key === 'Escape') done(); };
+  close.addEventListener('click', done); back.addEventListener('click', (e) => { if (e.target === back) done(); });
+  document.addEventListener('keydown', onKey); close.focus();
+}
+let pending = null, hintEl = null;
+function hint(text) { if (!hintEl) { hintEl = el('div', 'cmp-hint'); document.body.appendChild(hintEl); } hintEl.textContent = text; hintEl.classList.add('on'); clearTimeout(hint._t); hint._t = setTimeout(() => hintEl.classList.remove('on'), COMPARE_MS); }
+document.addEventListener('click', (e) => {
+  if (e.target.closest('details, a, button, select, input')) return;
+  const card = e.target.closest('.card'); if (!card || !card.dataset.id) return;
+  const now = Date.now();
+  if (pending && pending.card !== card && now - pending.t <= COMPARE_MS && document.body.contains(pending.card)) {
+    pending.card.classList.remove('armed'); const first = pending.card; pending = null; openCompare(first, card); return;
+  }
+  if (pending) pending.card.classList.remove('armed');
+  pending = { card, t: now }; card.classList.add('armed');
+  hint('Tap another card to see how they connect');
+  setTimeout(() => { if (pending && pending.card === card && Date.now() - pending.t >= COMPARE_MS) { card.classList.remove('armed'); pending = null; } }, COMPARE_MS + 50);
+});
+
 // ---------- quick links ----------
 function renderQuick() {
   const nav = $('#quick'); nav.textContent = '';
@@ -623,8 +776,8 @@ function renderQuick() {
 // ---------- render ----------
 function render() {
   const F = DATA.figures;
-  document.querySelectorAll('#housing, #gdp, #watch, #immigration, #crime, #money, #time, #today').forEach((s) => {
-    const key = { housing: 'housing', gdp: 'gdp', watch: 'watch', immigration: 'imm', crime: 'crime', money: 'money', time: 'time', today: 'today' }[s.id];
+  document.querySelectorAll('#housing, #gdp, #watch, #immigration, #crime, #money, #time, #today, #health').forEach((s) => {
+    const key = { health: 'today', housing: 'housing', gdp: 'gdp', watch: 'watch', immigration: 'imm', crime: 'crime', money: 'money', time: 'time', today: 'today' }[s.id];
     s.style.setProperty('--sc', SEC[key]);
   });
   const t1cards = [];
@@ -658,7 +811,7 @@ function render() {
   DATA.talking.forEach((t) => {
     const a = el('article', 'talk'); a.style.setProperty('--ac', SEC.today);
     a.append(el('p', 'tag', t.topic), el('h3', '', t.headline), el('p', '', t.detail));
-    const st = el('p', 'stamp', 'Latest data: ' + date(t.published)); st.style.setProperty('--ac', SEC.today); a.appendChild(st);
+    const st = el('p', 'stamp', 'Latest data: ' + dshort(t.published)); st.style.setProperty('--ac', SEC.today); a.appendChild(st);
     const src = el('p', 'src'); const l = el('a', '', 'Source: ' + t.source + ' ↗'); l.href = t.url; l.target = '_blank'; l.rel = 'noopener'; src.appendChild(l); a.appendChild(src);
     talks.appendChild(a);
   });
